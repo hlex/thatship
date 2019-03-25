@@ -1,15 +1,15 @@
 import React from 'react'
 
+import AppLogo from './AppLogo'
 import Category from './Category'
 
-import appLogo from '../images/logo.png'
 import iconMe from '../images/me.png'
 
 const Header = () => {
   return (
     <div className="header">
       <div className="title">
-        <img src={appLogo} alt="logo" />
+        <AppLogo />
         <p>Confess your Regret and sail it away!</p>
       </div>
       <div className="category-list">

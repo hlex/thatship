@@ -1,20 +1,36 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import anime from 'animejs'
 
-import { Home } from './pages'
-import { Header, Footer } from './components'
+import { Container, Header, Footer } from './components'
 
+import boat from './images/boat.png'
 
 const App = () => {
+  const [appState, setAppState] = useState('init')
+  useEffect(() => {
+    if (appState === 'init') {
+      setTimeout(() => {
+        setAppState('prelude')
+      }, 3000)
+    } else if (appState === 'prelude') {
+      setTimeout(() => {
+        setAppState('ready')
+      }, 3000)
+    }
+  })
+  const isReady = () => appState === 'ready'
   return (
     <div className="app">
-      <Header />
-      <div style={{ marginTop: 80 }}>
-        <Router>
-          <Route path="/" exact component={Home} />
-        </Router>
+      <Header active={isReady} />
+      <Container>
+        <img src={boat} alt="" />
+        <p>(idiom) </p>
+        <p>Used in reference to an opportunity that has passed or a situation that can no longer be changed.</p>
+        <p>Used in reference to an opportunity that has passed or a situation that can no longer be changed.</p>
+      </Container>
+      <div className="" style={{ marginTop: isReady ? 80 : 0 }}>
       </div>
-      <Footer />
+      <Footer active={isReady} />
     </div>
   );
 }
