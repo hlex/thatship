@@ -1,4 +1,6 @@
-@import "./components/index";
+@import "./base/index.scss";
+@import "./components/index.scss";
+@import "./page/index.scss";
 
 body {
   margin: 0;

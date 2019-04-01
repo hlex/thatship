@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import anime from 'animejs'
 
-import { Container, Header, Footer } from './components'
+import { Header, Footer } from './components'
+import { Home } from './pages'
 
-import boat from './images/boat.png'
 
 const App = () => {
   const [appState, setAppState] = useState('init')
@@ -22,14 +22,7 @@ const App = () => {
   return (
     <div className="app">
       <Header active={isReady} />
-      <Container>
-        <img src={boat} alt="" />
-        <p>(idiom) </p>
-        <p>Used in reference to an opportunity that has passed or a situation that can no longer be changed.</p>
-        <p>Used in reference to an opportunity that has passed or a situation that can no longer be changed.</p>
-      </Container>
-      <div className="" style={{ marginTop: isReady ? 80 : 0 }}>
-      </div>
+      <Home />
       <Footer active={isReady} />
     </div>
   );

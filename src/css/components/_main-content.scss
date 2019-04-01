@@ -1,0 +1,25 @@
+.main-content {
+  padding-top: $header-height;
+}
+
+.category .item {
+  color: #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+
+.category .item:not(:last-child) {
+  margin-right: 10px;
+}
+
+.category .color-tag {
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  &.circle {
+    border-radius: 100%;
+  }
+}
