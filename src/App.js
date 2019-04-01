@@ -21,19 +21,14 @@ const App = () => {
 
   const isReady = appState === 'ready'
 
-  if (!isReady) {
-    return (
-      <div className="app">
-        <Prelude onEnded={setReady} />
-      </div>
-    )
-  }
+  console.log('appState', appState)
 
   return (
     <div className="app">
-      <Header />
-      <Routes />
-      <Footer />
+      {isReady && <Header />}
+      <Prelude onEnded={setReady} />
+      {isReady && <Routes />}
+      {isReady && <Footer />}
     </div>
   );
 }
