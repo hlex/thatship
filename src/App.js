@@ -1,29 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import anime from 'animejs'
 
-import { Header, Footer } from './components'
-import { Home } from './pages'
+import Routes from './routes'
 
+import { Header, Footer } from './components'
+import { Home, Prelude } from './pages'
 
 const App = () => {
   const [appState, setAppState] = useState('init')
-  useEffect(() => {
-    if (appState === 'init') {
-      setTimeout(() => {
-        setAppState('prelude')
-      }, 3000)
-    } else if (appState === 'prelude') {
-      setTimeout(() => {
-        setAppState('ready')
-      }, 3000)
-    }
-  })
-  const isReady = () => appState === 'ready'
+  // useEffect(() => {
+
+  // })
+  const handleChangeAppState = (state) => {
+    setAppState(state)
+  }
+
+  const setReady = () => {
+    handleChangeAppState('ready')
+  }
+
+  const isReady = appState === 'ready'
+
+  if (!isReady) {
+    return (
+      <div className="app">
+        <Prelude onEnded={setReady} />
+      </div>
+    )
+  }
+
   return (
     <div className="app">
-      <Header active={isReady} />
-      <Home />
-      <Footer active={isReady} />
+      <Header />
+      <Routes />
+      <Footer />
     </div>
   );
 }
