@@ -1,0 +1,33 @@
+.paper {
+  position: relative;
+  width: 600px;
+  background-color: $white;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 50px;
+  .paper-body {
+    padding: 0 30px;
+  }
+  .paper-footer {
+
+  }
+}
+
+.paper .paper-body {
+  img {
+    display: block;
+  }
+}
+
+$position: 20px;
+.paper .button-close {
+  position: absolute;
+  top: $position;
+  right: $position;
+  i {
+    font-size: 30px;
+  }
+}
