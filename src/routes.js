@@ -2,7 +2,7 @@ import React, { Fragment, Component, useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import _ from "lodash";
 
-import { Prelude, Login, MainMenu, Discover, NotFound } from "./pages";
+import { Prelude, Login, MainMenu, Discover, NotFound, About, Credit, Terms } from "./pages";
 import { Header, Footer } from "./components";
 
 import { components, userContext } from "./lib";
@@ -14,13 +14,10 @@ const { UserConsumer } = userContext;
 //   return currentPage !== "/login" || currentPage !== "/add";
 // };
 
-const withNavigation = ({ component: Component, ...rest }) => {
-  // const currentPage = _.get(location, 'pathname', '')
-  // const contextValue = useContext(userContext)
-  // console.log('contextValue', contextValue)
+const withNavigation = ({ component: Component, showCategory, ...rest }) => {
   return (
     <Fragment>
-      <Header {...rest} />
+      <Header showCategory={showCategory} {...rest} />
       <Component {...rest} />
       <Footer {...rest} />
     </Fragment>
@@ -37,7 +34,28 @@ const routes = () => (
           exact
           path="/login"
           render={props =>
-            withNavigation({ component: Login, ...props, ...userProps })
+            withNavigation({ component: Login, showCategory: false, ...props, ...userProps })
+          }
+        />
+        <Route
+          exact
+          path="/credit"
+          render={props =>
+            withNavigation({ component: Credit, showCategory: false, ...props, ...userProps })
+          }
+        />
+        <Route
+          exact
+          path="/about"
+          render={props =>
+            withNavigation({ component: About, showCategory: false, ...props, ...userProps })
+          }
+        />
+        <Route
+          exact
+          path="/terms"
+          render={props =>
+            withNavigation({ component: Terms, showCategory: false, ...props, ...userProps })
           }
         />
         <PrivateRoute path="/discover/:type" render={(props) => <Discover {...props} />} />

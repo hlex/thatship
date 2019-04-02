@@ -6,13 +6,7 @@ import Category from './Category'
 
 import iconMe from '../images/me.png'
 
-const Header = ({ isLoggedIn, location }) => {
-  console.log({ isLoggedIn, location })
-  const showCategory = () => {
-    const currentPage = _.get(location, 'pathname', '')
-    return currentPage !== '/login' && currentPage !== '/add'
-  }
-
+const Header = ({ isLoggedIn, location, showCategory = true }) => {
   return (
     <div className="header fixed-top">
       <div className="container">
@@ -21,7 +15,7 @@ const Header = ({ isLoggedIn, location }) => {
             <AppLogo />
             <p>Confess your Regret and sail it away!</p>
           </div>
-          <div className={`category-list ${showCategory() ? 'show' : ''}`}>
+          <div className={`category-list ${showCategory ? 'show' : ''}`}>
             <Category />
           </div>
           <div className={`user-zone ${isLoggedIn} ? 'show' : ''`}>

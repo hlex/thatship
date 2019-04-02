@@ -3,4 +3,6 @@ export { default as Prelude } from './Prelude'
 export { default as MainMenu } from './MainMenu'
 export { default as Discover } from './Discover'
 export { default as Login } from './Login'
-
+export { default as About } from './About'
+export { default as Credit } from './Credit'
+export { default as Terms } from './Terms'

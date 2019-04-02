@@ -1,6 +1,7 @@
 .paper {
   position: relative;
-  width: 600px;
+  max-width: 700px;
+  width: 100%;
   background-color: $white;
   border-radius: 4px;
   display: flex;
@@ -16,14 +17,29 @@
   }
 }
 
-.paper .paper-body {
+.paper .paper-header {
+  margin: 15px 0;
+  h1 {
+    margin: 5px 0;
+  }
   img {
     display: block;
+    margin-right: 20px;
+  }
+}
+
+.paper .paper-body {
+  > p.overflow-y {
+    height: 300px;
+    overflow-y: scroll;
   }
 }
 
 .paper .paper-footer {
   color: $black;
+  h6 {
+    margin: 0;
+  }
 }
 
 $position: 20px;
