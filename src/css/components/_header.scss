@@ -10,6 +10,7 @@
     right: 0;
     z-index: 100;
   }
+
 }
 
 .header .content {
@@ -22,5 +23,18 @@
   p {
     color: #FFF;
     margin: 0;
+  }
+}
+
+.header .category-list {
+  opacity: 0;
+  &.show {
+    opacity: 1;
+  }
+}
+.header .user-zone {
+  opacity: 0;
+  &.show {
+    opacity: 1;
   }
 }
