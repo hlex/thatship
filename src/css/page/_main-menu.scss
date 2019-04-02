@@ -1,0 +1,48 @@
+.main-menu-page {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  > img {
+    margin-bottom: $space * 4;
+    opacity: 0;
+  }
+}
+
+.main-menu-page > .choice-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-menu-page > .choice-container >  .choice-item {
+  opacity: 0;
+  margin: 0 (2*$space);
+  > .img-icon {
+    border-radius: 100%;
+    border: 2px solid $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  }
+  > .img-icon > img {
+    max-width: 50px;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  > .img-icon > img.addon {
+    max-width: 20px;
+    position: absolute;
+  }
+  > h4 {
+    color: $white;
+    text-transform: uppercase;
+  }
+}

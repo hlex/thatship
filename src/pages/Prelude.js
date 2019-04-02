@@ -1,20 +1,16 @@
 import React, { Fragment, useState, useEffect } from "react";
 import anime from "animejs";
-import { Link } from 'react-router-dom'
 
 import { AppLogo } from "../components";
 
 import boat from "../images/boat.png";
-import iconScope from "../images/icon_scope.png";
-import iconPaper from "../images/icon_paper.png";
-import iconPlus from "../images/icon_plus.png";
 
-const maxScene = 4;
-const sceneDuration = 200
-const boatSwingSpeed = 1000
+const maxScene = 3;
+const sceneDuration = 1500
+const boatSwingSpeed = 1500
 const textAnimationDuration = 200
 
-const Prelude = ({ onEnded }) => {
+const Prelude = ({ history }) => {
   const [state, setState] = useState(0);
   const [isBoatAnimated, setBoatAnimated] = useState(false)
 
@@ -23,33 +19,16 @@ const Prelude = ({ onEnded }) => {
       animateBoat();
       setBoatAnimated(true)
     }
-    if (state === 4) {
-      animateSelection()
-    } else {
-      animateText()
-    }
+    if (state <= maxScene) animateText()
   });
 
   const manageState = () => {
     if (state < maxScene) {
       setState(state + 1);
     } else {
-      onEnded()
+      history.push('/menu')
     }
   };
-
-  const animateSelection = () => {
-    anime({
-      targets: ".choice-container > .choice-item",
-      opacity: [0, 1],
-      delay: (el, i, l) => i * 100,
-      easing: "easeInOutSine",
-      duration: textAnimationDuration,
-      complete: (anim) => {
-        manageState()
-      }
-    });
-  }
 
   const animateText = () => {
     anime({
@@ -69,7 +48,7 @@ const Prelude = ({ onEnded }) => {
             complete: (anim) => {
               setTimeout(() => {
                 manageState()
-              })
+              }, sceneDuration)
             }
           });
         }, sceneDuration)
@@ -125,25 +104,6 @@ const Prelude = ({ onEnded }) => {
           <Fragment>
             <AppLogo />
           </Fragment>
-        );
-        break;
-      case 4:
-        textDOM = (
-          <div className="choice-container">
-            <Link to="/login" className="choice-item">
-              <div className="img-icon">
-                <img src={iconPaper} alt="" />
-                <img className="addon" src={iconPlus} alt="" />
-              </div>
-              <h4>confess a regret</h4>
-            </Link>
-            <Link to="/discover" className="choice-item">
-              <div className="img-icon">
-                <img src={iconScope} alt="" />
-              </div>
-              <h4>explore all regrets</h4>
-            </Link>
-          </div>
         );
         break;
       default:

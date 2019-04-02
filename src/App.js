@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import anime from 'animejs'
 
 import Routes from './routes'
@@ -6,31 +8,22 @@ import Routes from './routes'
 import { Header, Footer } from './components'
 import { Home, Prelude } from './pages'
 
-const App = () => {
-  const [appState, setAppState] = useState('init')
-  // useEffect(() => {
+import { userContext } from './lib'
 
-  // })
-  const handleChangeAppState = (state) => {
-    setAppState(state)
-  }
+const { UserProvider } = userContext
 
-  const setReady = () => {
-    handleChangeAppState('ready')
-  }
-
-  const isReady = appState === 'ready'
-
-  console.log('appState', appState)
-
+const App = ({ history }) => {
+  // const handleEndPrelude = () => {
+  //   history.push('/menu')
+  // }
   return (
-    <div className="app">
-      {isReady && <Header />}
-      <Prelude onEnded={setReady} />
-      {isReady && <Routes />}
-      {isReady && <Footer />}
-    </div>
+    <UserProvider>
+      <div className="app">
+        <Routes />
+        {/* <Prelude onEnded={setReady} /> */}
+      </div>
+    </UserProvider>
   );
 }
 
-export default App;
+export default withRouter(App);
