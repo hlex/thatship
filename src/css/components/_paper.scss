@@ -22,12 +22,21 @@
   }
 }
 
+.paper .paper-footer {
+  color: $black;
+}
+
 $position: 20px;
 .paper .button-close {
   position: absolute;
   top: $position;
   right: $position;
+  cursor: pointer;
+  transition: 0.15s linear;
   i {
     font-size: 30px;
+  }
+  &:hover {
+    transform: scale(1.2);
   }
 }

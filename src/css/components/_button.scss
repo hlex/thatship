@@ -10,6 +10,7 @@
   color: #FFF;
   background-color: $space-gray;
   cursor: pointer;
+  transition: 0.3s linear;
 }
 
 .button.with-addon {
@@ -25,5 +26,8 @@
   > span {
     width: 100% - $addon-percent;
     padding: 10px 0;
+  }
+  &:hover {
+    background-color: $blue;
   }
 }
