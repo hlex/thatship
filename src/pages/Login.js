@@ -3,9 +3,32 @@ import { Link } from "react-router-dom";
 
 import { MainContent, Paper } from "../components";
 
+import { firebase } from '../lib'
+
 import iconMe from "../images/me.png";
 
+const fbProvider = new firebase.auth.FacebookAuthProvider();
+fbProvider.setCustomParameters({
+  display: "popup"
+});
+
 const Login = ({ history }) => {
+
+  const loginFB = async () => {
+    try {
+      const result = await firebase.auth().signInWithPopup(fbProvider);
+      const user = result.user;
+      const userData = {
+        email: user.providerData[0].email,
+        display_name: user.providerData[0].displayName,
+        imageProfile: user.providerData[0].photoURL,
+      };
+      console.log('userData', userData)
+    } catch (error) {
+      console.log("Error", { error, code: error.code, message: error.message });
+    }
+  };
+
   const handleCancelLogin = () => {
     history.push("/menu");
   };
@@ -31,7 +54,7 @@ const Login = ({ history }) => {
                     navigating through others regrets
                   </p>
                   <div style={{ width: 200, margin: "30px auto" }}>
-                    <button className="button with-addon">
+                    <button className="button with-addon" onClick={loginFB}>
                       <span className="addon-icon">
                         <i className="fab fa-facebook-f" />
                       </span>
