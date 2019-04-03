@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { MainContent, Paper } from "../components";
 
@@ -12,18 +12,23 @@ fbProvider.setCustomParameters({
   display: "popup"
 });
 
-const Login = ({ history }) => {
+const Login = ({ isLoggedIn, userLogin, history }) => {
 
   const loginFB = async () => {
     try {
       const result = await firebase.auth().signInWithPopup(fbProvider);
       const user = result.user;
       const userData = {
+        uid: user.uid,
+        isAnonymous: user.isAnonymous,
         email: user.providerData[0].email,
         display_name: user.providerData[0].displayName,
         imageProfile: user.providerData[0].photoURL,
       };
-      console.log('userData', userData)
+      alert('Login Successfully')
+      userLogin(userData)
+      // redirect to discover
+      history.push('/discover')
     } catch (error) {
       console.log("Error", { error, code: error.code, message: error.message });
     }
@@ -32,6 +37,8 @@ const Login = ({ history }) => {
   const handleCancelLogin = () => {
     history.push("/menu");
   };
+
+  if (isLoggedIn) return <Redirect to="/discover" />
 
   return (
     <div className="login-page">

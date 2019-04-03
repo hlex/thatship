@@ -58,7 +58,8 @@ const routes = () => (
             withNavigation({ component: Terms, showCategory: false, ...props, ...userProps })
           }
         />
-        <PrivateRoute path="/discover/:type" render={(props) => <Discover {...props} />} />
+        <PrivateRoute path="/discover" render={(props) => withNavigation({ component: Discover, showCategory: true, ...props, ...userProps })} />
+        <PrivateRoute path="/discover/:category" render={(props) => withNavigation({ component: Discover, showCategory: true, ...props, ...userProps })} />
         <Route path="/*" component={NotFound} />
       </Switch>
     )}

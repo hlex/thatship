@@ -1,19 +1,53 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
+
+import firebase from '../firebase'
 
 const UserContext = createContext();
 const { Consumer, Provider } = UserContext
 
 const initialUser = {
-  userId: '',
+  uid: '',
   imageProfile: '',
+  email: '',
   displayName: '',
-  anonymous: true
+  isAnonymous: false
 }
 
 const UserProvider = ({ children }) => {
+  const [verifiedUser, setVerifyUser] = useState(false)
   const [user, setUser] = useState(initialUser);
-  const isLoggedIn = user.userId !== '' && user.anonymous === false
-  return <Provider value={{ user, setUser, isLoggedIn }}>{children}</Provider>;
+
+  useEffect(() => {
+    if (!verifiedUser) {
+      firebase.auth().onAuthStateChanged((result) => {
+        if (result) {
+          const localStorageUser = localStorage.getItem('localStorageUser')
+          if (localStorageUser) {
+            setUser(JSON.parse(localStorageUser))
+          }
+        }
+        setVerifyUser(true)
+      });
+    }
+  })
+
+  const isLoggedIn = user.uid !== '' && user.isAnonymous === false
+
+  const userLogin = (loginUser) => {
+    console.log('userLogin', loginUser)
+    // save to localStorage
+    localStorage.setItem('localStorageUser', JSON.stringify(loginUser))
+    // setState
+    setUser(loginUser)
+  }
+
+  const userLogout = async () => {
+    await firebase.auth().signOut()
+    localStorage.removeItem("localStorageUser");
+    setUser({})
+  }
+
+  return <Provider value={{ user, userLogin, userLogout, isLoggedIn }}>{children}</Provider>;
 };
 
 export default {

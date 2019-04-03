@@ -1,0 +1,26 @@
+.avatar {
+  position: relative;
+  .background-image {
+    position: relative;
+    z-index: 0;
+  }
+  img {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+  }
+}
+
+.avatar .user-image {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  left: 14px;
+  top: 14px;
+  overflow: hidden;
+  z-index: 1;
+  &.rounded {
+    border-radius: 50%;
+  }
+}
