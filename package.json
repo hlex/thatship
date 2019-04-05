@@ -4,13 +4,17 @@
   "private": true,
   "dependencies": {
     "animejs": "^3.0.1",
+    "dat.gui": "^0.7.6",
     "firebase": "^5.9.1",
     "firebaseui": "^3.5.2",
+    "gsap": "^2.1.2",
     "lodash": "^4.17.11",
     "node-sass": "^4.11.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-router-dom": "^5.0.0"
+    "react-router-dom": "^5.0.0",
+    "three": "^0.103.0",
+    "three-obj-mtl-loader": "^1.0.3"
   },
   "devDependencies": {
     "react-scripts": "2.1.8"
