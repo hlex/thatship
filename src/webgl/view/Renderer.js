@@ -1,10 +1,9 @@
-import * as THREE from "three";
+// import * as THREE from "three";
+import * as THREE from "three-full";
 import { TweenMax, Power4 } from "gsap";
 
 import MediatorFactory from "../MediatorFactory";
 import ObjectPicker from "../view/ObjectPicker";
-
-require("three/examples/js/controls/MapControls.js");
 
 export default class Renderer {
   constructor({ controller, model }) {
@@ -29,6 +28,7 @@ export default class Renderer {
       antialias: true
     });
 
+    // const controls = new THREE.OrbitControls( camera );
     const controls = new THREE.MapControls(camera, renderer.domElement);
     // an animation loop is required when either damping or auto-rotation are enabled
     controls.enableDamping = true;
@@ -60,6 +60,7 @@ export default class Renderer {
     scene.fog = new THREE.Fog(0x111111);
 
     return { scene, camera, renderer, controls };
+    // return { scene, camera, renderer, controls };
   }
 
   initialize(onAfterInit) {
@@ -130,7 +131,7 @@ export default class Renderer {
 
   render() {
     // only required if controls.enableDamping = true, or if controls.autoRotate = true
-    this.ctx.controls.update();
+    // this.ctx.controls.update();
 
     requestAnimationFrame(() => this.render());
 
