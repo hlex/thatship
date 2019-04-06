@@ -1,5 +1,5 @@
 import Observer from "../../Observer";
-import * as THREE from "three/src/Three";
+import * as THREE from "three-full";
 
 import { MTLLoader, OBJLoader } from "three-obj-mtl-loader";
 
