@@ -29,7 +29,7 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
         <div className="content">
           <div className="title">
             <AppLogo />
-            <p>Confess your Regret and sail it away!</p>
+            <p className="bold">Confess your Regret and sail it away!</p>
           </div>
           <div className={`category-list ${showCategory ? 'show' : ''}`}>
             <Category />
