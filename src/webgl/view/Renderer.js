@@ -38,7 +38,7 @@ export default class Renderer {
     controls.maxDistance = camera.far / 2;
     controls.maxPolarAngle = Math.PI / 2.3;
 
-    camera.position.set(150, 0, 300);
+    camera.position.set(75, 50, 50);
 
     // const helper = new THREE.GridHelper( 10000,10 );
     // scene.add(helper);
@@ -80,6 +80,9 @@ export default class Renderer {
     window.addEventListener("resize", () => this.onWindowResize(), false);
 
     this.rootMediator.addObserver("BoatAddedToOcean", e => {
+
+      console.log('BoatAddedToOcean', e)
+
       const newPos = e.object3D.position;
 
       this.objectPicker.addTarget(e.object3D);
