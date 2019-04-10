@@ -6,6 +6,33 @@
   }
 }
 
+.discover-page .menu {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  width: 300px;
+  transform: translateY(-50%);
+  .menu-item {
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  .menu-item:not(:last-child) {
+    margin-bottom: 15px;
+  }
+  .menu-item img {
+    max-width: 50px;
+    width: 100%;
+    height: auto;
+    margin-right: 15px;
+  }
+  .menu-item h4 {
+    color: $white;
+    text-transform: uppercase;
+  }
+}
+
 .discover-page #ocean {
   position: absolute;
   top: 0;
@@ -13,3 +40,4 @@
   right: 0;
   bottom: 0;
 }
+

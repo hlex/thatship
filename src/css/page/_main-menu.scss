@@ -22,8 +22,6 @@
   opacity: 0;
   margin: 0 (2*$space);
   > .img-icon {
-    border-radius: 100%;
-    border: 2px solid $white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,7 +30,6 @@
     margin: 0 auto;
   }
   > .img-icon > img {
-    max-width: 50px;
     width: 100%;
     height: auto;
     display: block;

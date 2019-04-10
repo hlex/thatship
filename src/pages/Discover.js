@@ -6,6 +6,9 @@ import Controller from "../webgl/Controller";
 import Ocean from "../webgl/model/OceanModel";
 import Boat from "../webgl/model/BoatModel";
 
+import iconConfess from "../images/confess.png";
+import iconSearch from "../images/search.png";
+
 // import BoatFlag from '@/components/BoatFlag'
 // import BoatEdit from '@/components/BoatEdit'
 // import BoatCreate from '@/components/BoatCreate'
@@ -99,7 +102,17 @@ const Discover = () => {
     <div className="discover-page">
       <div className="container">
         <MainContent>
-          <button className="test-button" onClick={handleAddBoat}>Add Boat</button>
+          {/* <button className="test-button" onClick={handleAddBoat}>Add Boat</button> */}
+          <div className="menu">
+            <div className="menu-item">
+              <img src={iconConfess} alt="" />
+              <h4>confess a regret</h4>
+            </div>
+            <div className="menu-item">
+              <img src={iconSearch} alt="" />
+              <h4>search for regrets</h4>
+            </div>
+          </div>
           <div id="ocean">{ocean}</div>
         </MainContent>
       </div>

@@ -3,9 +3,11 @@ import anime from "animejs";
 import { Link } from 'react-router-dom'
 
 import boat from "../images/boat.png";
-import iconScope from "../images/icon_scope.png";
-import iconPaper from "../images/icon_paper.png";
-import iconPlus from "../images/icon_plus.png";
+import iconConfess from "../images/confess_big.png"
+import iconSearch from "../images/search_big.png"
+// import iconScope from "../images/icon_scope.png";
+// import iconPaper from "../images/icon_paper.png";
+// import iconPlus from "../images/icon_plus.png";
 
 const textAnimationDuration = 200
 
@@ -51,14 +53,13 @@ const MainMenu = () => {
       <div className="choice-container">
         <Link to="/login" className="choice-item">
           <div className="img-icon">
-            <img src={iconPaper} alt="" />
-            <img className="addon" src={iconPlus} alt="" />
+            <img src={iconConfess} alt="" />
           </div>
           <h4>confess a regret</h4>
         </Link>
         <Link to="/discover" className="choice-item">
           <div className="img-icon">
-            <img src={iconScope} alt="" />
+            <img src={iconSearch} alt="" />
           </div>
           <h4>explore all regrets</h4>
         </Link>

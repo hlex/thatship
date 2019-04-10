@@ -7,8 +7,8 @@ import {
   Avatar
 } from './'
 
-import iconWheel from '../images/wheel.png'
 import iconMe from '../images/me.png'
+import iconCompass from '../images/navigate.png';
 
 const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true }) => {
 
@@ -34,7 +34,10 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
           <div className={`category-list ${showCategory ? 'show' : ''}`}>
             <Category />
           </div>
+          <div className="compass">
+          </div>
           <div className={`user-zone ${isLoggedIn ? 'show' : ''}`}>
+            <img src={iconCompass} alt="" />
             {renderAvatar()}
           </div>
         </div>

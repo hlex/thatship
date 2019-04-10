@@ -32,7 +32,13 @@
   }
 }
 .header .user-zone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   opacity: 0;
+  > .compass {
+    margin-right: 10px;
+  }
   &.show {
     opacity: 1;
   }
