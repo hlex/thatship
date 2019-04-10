@@ -12,17 +12,17 @@ import Boat from "../webgl/model/BoatModel";
 
 import { randomID } from "../webgl/utils";
 
+let oceanModel
 
 
 const Discover = () => {
   const [boats, setBoats] = useState({})
   let ocean = <div />
   useEffect(() => {
-    console.log('ComponentDidMount')
     // // the root model, all of the boats will be it's children
     // // oceanModel = new Ocean();
     ocean = new Ocean();
-    const oceanModel = ocean
+    oceanModel = ocean
 
     // renderer initialization will happen within the controller
     const oceanController = new Controller({
@@ -35,9 +35,10 @@ const Discover = () => {
     oceanModel.addObserver("BoatModelAdded", e => {
       console.log("BoatModelAdded");
       // addBoat()
-      // this.boats = Object.assign({}, this.boats, {
-      //   [e.boat.id]: e.boat
-      // });
+      const nextBoats = Object.assign({}, boats, {
+        [e.boat.id]: e.boat
+      });
+      setBoats(nextBoats)
     });
 
     oceanController.addObserver("BoatHover", data => hoverBoat(data));
@@ -54,32 +55,19 @@ const Discover = () => {
       message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
       author: 'Author 1'
     });
-
     // run the internal method of the ocean model
     oceanModel.addBoat(boat);
-
-    // handleAddBoat({
-    //   id: Math.random(1000000) + 1,
-    //   message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
-    //   author: 'Author 1'
-    // })
   }, []);
 
   const handleAddBoat = data => {
-    //sample boat. Further communication with boats will occur via ID
-    // const boat = new Boat({
-    //   id: randomID(),
-    //   message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-    //   author: "Author 1"
-    // });
-    // ocean.addBoat(boat)
-    // ocean.addBoat(
-    //   new Boat({
-    //     id: randomID(),
-    //     message: data.message,
-    //     author: data.author
-    //   })
-    // );
+    console.log('handleAddBoat', data)
+    // sample boat. Further communication with boats will occur via ID
+    const boat = new Boat({
+      id: randomID(),
+      message: data.message,
+      author: data.author
+    })
+    oceanModel.addBoat(boat)
     // this.isCreateMode = false;
   };
   const editBoat = data => {
@@ -107,9 +95,6 @@ const Discover = () => {
     //   this.boats[id].showing = true;
     // }
   };
-
-  console.log('ocean', ocean, typeof ocean)
-
   return (
     <div className="discover-page">
       <div className="container">
