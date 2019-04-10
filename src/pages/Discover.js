@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { MainContent } from "../components";
 
@@ -12,11 +12,17 @@ import Boat from "../webgl/model/BoatModel";
 
 import { randomID } from "../webgl/utils";
 
+
+
 const Discover = () => {
-  let oceanModel = <div />
+  const [boats, setBoats] = useState({})
+  let ocean = <div />
   useEffect(() => {
-    // the root model, all of the boats will be it's children
-    oceanModel = new Ocean();
+    console.log('ComponentDidMount')
+    // // the root model, all of the boats will be it's children
+    // // oceanModel = new Ocean();
+    ocean = new Ocean();
+    const oceanModel = ocean
 
     // renderer initialization will happen within the controller
     const oceanController = new Controller({
@@ -28,32 +34,46 @@ const Discover = () => {
     // TODO transform event names into constants
     oceanModel.addObserver("BoatModelAdded", e => {
       console.log("BoatModelAdded");
-      this.boats = Object.assign({}, this.boats, {
-        [e.boat.id]: e.boat
-      });
+      // addBoat()
+      // this.boats = Object.assign({}, this.boats, {
+      //   [e.boat.id]: e.boat
+      // });
     });
 
-    oceanController.addObserver("BoatHover", data => this.hoverBoat(data));
+    oceanController.addObserver("BoatHover", data => hoverBoat(data));
     oceanController.addObserver("BoatSelect", e => {
       this.selectedId = e.id;
       this.isEditMode = true;
     });
-    oceanController.addObserver("ClearHover", () => this.clearHover());
+    oceanController.addObserver("ClearHover", () => clearHover());
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
     const boat = new Boat({
       id: randomID(),
-      message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-      author: "Author 1"
+      message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+      author: 'Author 1'
     });
 
     // run the internal method of the ocean model
-    // oceanModel.addBoat(boat);
+    oceanModel.addBoat(boat);
+
+    // handleAddBoat({
+    //   id: Math.random(1000000) + 1,
+    //   message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+    //   author: 'Author 1'
+    // })
   }, []);
 
-  const addBoat = data => {
-    // this.ocean.addBoat(
+  const handleAddBoat = data => {
+    //sample boat. Further communication with boats will occur via ID
+    // const boat = new Boat({
+    //   id: randomID(),
+    //   message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+    //   author: "Author 1"
+    // });
+    // ocean.addBoat(boat)
+    // ocean.addBoat(
     //   new Boat({
     //     id: randomID(),
     //     message: data.message,
@@ -88,13 +108,14 @@ const Discover = () => {
     // }
   };
 
-  console.log('oceanModel', oceanModel)
+  console.log('ocean', ocean, typeof ocean)
 
   return (
     <div className="discover-page">
       <div className="container">
         <MainContent>
-          <div id="ocean">{oceanModel}</div>
+          <button className="test-button" onClick={handleAddBoat}>Add Boat</button>
+          <div id="ocean">{ocean}</div>
         </MainContent>
       </div>
     </div>
