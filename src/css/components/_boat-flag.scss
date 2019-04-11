@@ -14,3 +14,26 @@
 //   transform: translateX(10px);
 //   opacity: 0;
 // }
+
+.boat-flag {
+  position: absolute;
+  background-color: $white;
+  padding: 20px;
+  opacity: 0;
+  transition: all .3s ease;
+  &.show {
+    opacity: 1;
+    transform: translateX(10px);
+  }
+  &:before {
+    content: "";
+    height: 100px;
+    width: 1px;
+  }
+  .text {
+
+  }
+  .author {
+
+  }
+}

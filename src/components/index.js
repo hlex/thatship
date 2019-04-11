@@ -6,3 +6,4 @@ export { default as MainContent } from "./MainContent";
 export { default as Paper } from "./Paper";
 export { default as Title } from "./Title";
 export { default as Avatar } from "./Avatar";
+export { default as BoatFlag } from "./BoatFlag";

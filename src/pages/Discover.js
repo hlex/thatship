@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import _ from 'lodash'
 
-import { MainContent } from "../components";
+import { MainContent, BoatFlag } from "../components";
 
 import Controller from "../webgl/Controller";
 import Ocean from "../webgl/model/OceanModel";
@@ -9,17 +10,14 @@ import Boat from "../webgl/model/BoatModel";
 import iconConfess from "../images/confess.png";
 import iconSearch from "../images/search.png";
 
-// import BoatFlag from '@/components/BoatFlag'
-// import BoatEdit from '@/components/BoatEdit'
-// import BoatCreate from '@/components/BoatCreate'
-
 import { randomID } from "../webgl/utils";
 
 let oceanModel
 
-
 const Discover = () => {
   const [boats, setBoats] = useState({})
+  const [currentFlag, setCurrentFlag] = useState({})
+
   let ocean = <div />
   useEffect(() => {
     // // the root model, all of the boats will be it's children
@@ -62,6 +60,9 @@ const Discover = () => {
     oceanModel.addBoat(boat);
   }, []);
 
+  const showFlag = () => !_.isEmpty(currentFlag.id)
+  const getHoveringBoat = () => _.find(boats, boat => boat.id === currentFlag.id)
+
   const handleAddBoat = data => {
     console.log('handleAddBoat', data)
     // sample boat. Further communication with boats will occur via ID
@@ -81,23 +82,25 @@ const Discover = () => {
     // this.isEditMode = false;
     // this.selectedId = null;
   };
-  const clearHover = forced => {
-    // if (
-    //   forced ||
-    //   (this.currentFlagId && !this.boats[this.currentFlagId].showing)
-    // ) {
-    //   // console.log('clear');
-    //   this.currentFlagId = null;
-    // }
-  };
-  const hoverBoat = ({ id, position }) => {
-    // if (this.currentFlagId !== id) {
-    //   // console.log('show');
-    //   this.currentFlagId = id;
-    //   this.boats[id].position = position;
-    //   this.boats[id].showing = true;
-    // }
-  };
+  const clearHover = _.throttle(forced => {
+    const hoveringBoat = getHoveringBoat()
+    console.log('clearHover', forced, hoveringBoat, _.isEmpty(hoveringBoat))
+    if (!_.isEmpty(hoveringBoat)) {
+      setCurrentFlag(null)
+    }
+  }, 500);
+  const hoverBoat = _.throttle(({ id, position }) => {
+    // console.log('hoverBoat', { id, position })
+    if (currentFlag.id !== id) {
+      setCurrentFlag({
+        id,
+        position
+      })
+    }
+  }, 500);
+
+  console.log('@Render', currentFlag, getHoveringBoat())
+
   return (
     <div className="discover-page">
       <div className="container">
@@ -113,6 +116,7 @@ const Discover = () => {
               <h4>search for regrets</h4>
             </div>
           </div>
+          <BoatFlag show={showFlag()} content={getHoveringBoat()} position={currentFlag.position || {}} />
           <div id="ocean">{ocean}</div>
         </MainContent>
       </div>
