@@ -5,6 +5,8 @@ import './css/index.scss'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+console.log('process.env', process.env)
+
 ReactDOM.render(
   <Router>
     <App />
