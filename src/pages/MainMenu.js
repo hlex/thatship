@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import anime from "animejs";
 import { Link } from 'react-router-dom'
 
+import { Ocean } from '../components'
+
 import boat from "../images/boat.png";
 import iconConfess from "../images/confess_big.png"
 import iconSearch from "../images/search_big.png"
@@ -64,6 +66,7 @@ const MainMenu = () => {
           <h4>explore all regrets</h4>
         </Link>
       </div>
+      <Ocean />
     </div>
   )
 }
