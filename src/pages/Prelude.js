@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
+import _ from 'lodash'
 import anime from "animejs";
 
-import { AppLogo } from "../components";
+import { AppLogo, Ocean } from "../components";
 
 import boat from "../images/boat.png";
 
@@ -12,15 +13,19 @@ const textAnimationDuration = 200
 
 const Prelude = ({ history }) => {
   const [state, setState] = useState(0);
-  const [isBoatAnimated, setBoatAnimated] = useState(false)
+  // const [isBoatAnimated, setBoatAnimated] = useState(false)
 
   useEffect(() => {
-    if (!isBoatAnimated) {
-      animateBoat();
-      setBoatAnimated(true)
-    }
+    console.log('useEffectA')
+    animateBoat();
+    // setBoatAnimated(true)
+  }, []);
+
+  useEffect(() => {
+    console.log('useEffectB', state, maxScene)
     if (state <= maxScene) animateText()
-  });
+  })
+
 
   const manageState = () => {
     if (state < maxScene) {
@@ -31,6 +36,7 @@ const Prelude = ({ history }) => {
   };
 
   const animateText = () => {
+    console.log('animateText')
     anime({
       targets: ".text-container > p",
       opacity: [0, 1],
@@ -118,6 +124,7 @@ const Prelude = ({ history }) => {
         <div className="content">
           <img id="prelude-boat" src={boat} alt="" />
           {getTexts()}
+          <Ocean />
         </div>
       </div>
     </div>
