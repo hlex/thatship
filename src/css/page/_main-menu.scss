@@ -13,9 +13,11 @@
 }
 
 .main-menu-page > .choice-container {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: $over-ocean;
 }
 
 .main-menu-page > .choice-container >  .choice-item {
