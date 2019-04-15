@@ -9,20 +9,24 @@ import { Header, Footer } from './components'
 import { Home, Prelude } from './pages'
 
 import { userContext } from './lib'
+import { storeContext } from './lib'
 
 const { UserProvider } = userContext
+const { StoreProvider } = storeContext
 
 const App = ({ history }) => {
   // const handleEndPrelude = () => {
   //   history.push('/menu')
   // }
   return (
-    <UserProvider>
-      <div className="app">
-        <Routes />
-        {/* <Prelude onEnded={setReady} /> */}
-      </div>
-    </UserProvider>
+    <StoreProvider>
+      <UserProvider>
+        <div className="app">
+          <Routes />
+          {/* <Prelude onEnded={setReady} /> */}
+        </div>
+      </UserProvider>
+    </StoreProvider>
   );
 }
 
