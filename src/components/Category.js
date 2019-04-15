@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import map from 'lodash/map'
+
+import { storeContext } from '../lib'
+
+const { StoreContext } = storeContext
 
 const categories = [
   {
@@ -54,14 +58,21 @@ const categories = [
   }
 ]
 
-const Category = ({ activeCategory }) => {
+const Category = (props) => {
+  const { activeCategory, setStore } = useContext(StoreContext)
+
+  const handleSelectCategory = (categoryValue) => {
+    setStore({ activeCategory: categoryValue })
+  }
+
   return (
     <div className="category">
       {
         map(categories, ({ color, label, value }) => {
           return (
-            <div key={value} className={`item ${value === activeCategory ? 'active' : ''}`}>
-              <span className="color-tag circle" style={{ backgroundColor: `${color}` }} />{label}
+            <div key={value} className={`item ${value === activeCategory ? 'active' : ''}`} onClick={() => handleSelectCategory(value)}>
+              <span className="color-tag circle" style={{ backgroundColor: `${color}` }} />
+              <span className="category-name">{label}</span>
             </div>
           )
         })
