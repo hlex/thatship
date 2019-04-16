@@ -9,6 +9,9 @@
   .item {
     color: #000;
   }
+  .item .category-name:after {
+    background-color: #000;
+  }
 }
 
 .category .item {

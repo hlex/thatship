@@ -1,13 +1,10 @@
 .confess-paper {
-  background-color: #FFF;
+  background-color: #fff;
   padding: 30px 50px;
-  .message, .author-container, .notes {
+  .message,
+  .author-container,
+  .notes {
     font-family: garidelliregular;
-  }
-  .close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
   }
   .close-button i {
     font-size: 20px;
@@ -16,6 +13,15 @@
     color: red;
     margin-left: 5px;
   }
+}
+
+.confess-paper .close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background-color: transparent;
+  padding: 10px;
 }
 
 .confess-paper .category-container {
@@ -27,7 +33,7 @@
 .confess-paper .note-container {
   .prefix {
     position: absolute;
-    background-color: #FFF;
+    background-color: #fff;
     padding-right: 16px;
     padding-bottom: 5px;
     margin: 0;
@@ -36,11 +42,41 @@
   }
   .notes {
     width: 100%;
-    background-image: -webkit-linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
-    background-image: -moz-linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
-    background-image: -ms-linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
-    background-image: -o-linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
-    background-image: linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
+    background-image: -webkit-linear-gradient(
+      white,
+      white 29px,
+      #000 29px,
+      #000 31px,
+      white 31px
+    );
+    background-image: -moz-linear-gradient(
+      white,
+      white 29px,
+      #000 29px,
+      #000 31px,
+      white 31px
+    );
+    background-image: -ms-linear-gradient(
+      white,
+      white 29px,
+      #000 29px,
+      #000 31px,
+      white 31px
+    );
+    background-image: -o-linear-gradient(
+      white,
+      white 29px,
+      #000 29px,
+      #000 31px,
+      white 31px
+    );
+    background-image: linear-gradient(
+      white,
+      white 29px,
+      #000 29px,
+      #000 31px,
+      white 31px
+    );
     background-size: 100% 41px;
     border: none;
     line-height: 38px;
@@ -57,5 +93,74 @@
   .author {
     margin: 30px 0 5px;
     font-size: 30px;
+  }
+  &.anonymous .author {
+    text-decoration: line-through;
+  }
+}
+
+.confess-paper .input-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  label {
+  }
+
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  // customer checkbox
+  span {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    border: 2px solid #000;
+    border-radius: 100%;
+    background-color: transparent;
+    transform: translateY(-50%);
+  }
+  /* Create the checkmark/indicator (hidden when not checked) */
+  /* Style the checkmark/indicator */
+  span:after {
+    content: "";
+    position: absolute;
+    display: none;
+    width: 18px;
+    height: 30px;
+    top: -10px;
+    left: -5px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("../images/checkmark.png");
+  }
+
+  /* On mouse-over, add a grey background color */
+  &:hover > input ~ span {
+    // background-color: #ccc;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  & > input:checked ~ span {
+    // background-color: #2196F3;
+  }
+
+  /* Show the checkmark when checked */
+  & > input:checked ~ span:after {
+    display: block;
   }
 }

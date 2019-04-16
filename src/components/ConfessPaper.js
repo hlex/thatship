@@ -8,6 +8,7 @@ const numberOfWhiteSpace = 11
 export default ({ onClose = () => null }) => {
   const [message, setMessage] = useState(_.padStart('', numberOfWhiteSpace))
   const [selectedCategory, setCategory] = useState("");
+  const [anonymous, setAnonymous] = useState(false)
 
   const handleSelectCategory = value => {
     setCategory(value);
@@ -20,18 +21,21 @@ export default ({ onClose = () => null }) => {
     }
   }
 
+  const toggleAnonymous = () => {
+    setAnonymous(!anonymous)
+  }
+
+  console.log('>>>', anonymous)
+
   return (
     <div className="confess-paper">
-      <div className="close-button">
-        <button onClick={onClose}>
-          <i className="fas fa-times" />
-        </button>
-      </div>
+      <button className="close-button" onClick={onClose}>
+        <i className="fas fa-times" />
+      </button>
       <div className="message">
         <div className="note-container">
           <p className="prefix">I regret</p>
           <textarea
-            resize={false}
             rows={4}
             className="notes"
             value={message}
@@ -47,14 +51,15 @@ export default ({ onClose = () => null }) => {
         <Category
           theme="dark"
           activeCategory={selectedCategory}
-          nSelect={handleSelectCategory}
+          onSelect={handleSelectCategory}
         />
       </div>
-      <div className="author-container">
+      <div className={`author-container ${anonymous ? 'anonymous' : ''}`}>
         <p className="author">Minnie C.</p>
-        <div className="input-checkbox">
-          <input type="checkbox" />
-          <span>Remain Anonymous</span>
+        <div className="input-checkbox" onClick={toggleAnonymous}>
+          <label>Remain Anonymous</label>
+          <input type="checkbox" checked={anonymous ? 'checked' : ''} />
+          <span />
         </div>
       </div>
     </div>
