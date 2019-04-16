@@ -20,13 +20,9 @@
   z-index: 100;
   background-color: $white;
   padding: 20px;
-  opacity: 0;
   height: 80px;
-  transition: all .3s ease;
-  &.show {
-    opacity: 1;
-    transform: translateX(10px);
-  }
+  width: 0;
+  opacity: 0;
   &:before {
     content: "";
     display: block;
@@ -47,6 +43,8 @@
     transform: translateX(100%);
     display: block;
     border: 40px solid #FFF;
+    border-left-width: 0;
+    border-right-width: 60px;
     z-index: -1;
     border-right-color: transparent;
   }

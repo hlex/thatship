@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import _ from 'lodash'
+import anime from 'animejs'
 
 import { MainContent, BoatFlag } from "../components";
 
@@ -88,11 +89,19 @@ const Discover = () => {
     const hoveringBoat = _.find(boats, boat => boat.id === currentFlag.id)
     // console.log('clearHover', { currentFlag, boats, hoveringBoat, isEmptyHoveringBoat: !_.isEmpty(hoveringBoat) })
     if (!_.isEmpty(hoveringBoat)) {
-      currentFlag = {}
-      setState({ _t: Date.now() })
+      anime({
+        targets: '.boat-flag',
+        opacity: 0,
+        width: 0,
+        duration: 1000,
+        easing: 'easeInOutQuad',
+        complete: () => {
+          currentFlag = {}
+          setState({ _t: Date.now() })
+        }
+      })
     }
-    // }
-  }, 500);
+  }, 2500);
   const hoverBoat = _.throttle(({ id, position }) => {
     // console.log('hoverBoat', { id, position })
     if (currentFlag.id !== id) {
@@ -102,7 +111,6 @@ const Discover = () => {
       }
       setState({ _t: Date.now() })
     }
-
   }, 500);
 
   console.log('@Render', currentFlag, getHoveringBoat())
@@ -111,7 +119,6 @@ const Discover = () => {
     <div className="discover-page">
       <div className="container">
         <MainContent>
-          {/* <button className="test-button" onClick={handleAddBoat}>Add Boat</button> */}
           <div className="menu">
             <div className="menu-item">
               <img src={iconConfess} alt="" />
@@ -122,7 +129,7 @@ const Discover = () => {
               <h4>search for regrets</h4>
             </div>
           </div>
-          <BoatFlag show={showFlag()} content={getHoveringBoat()} position={currentFlag.position || {}} />
+          {showFlag() && <BoatFlag content={getHoveringBoat()} position={currentFlag.position || {}} />}
           <div id="ocean">{ocean}</div>
         </MainContent>
       </div>

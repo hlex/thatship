@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import _ from 'lodash'
+import anime from 'animejs'
 
 const getTop = (position) => {
   const topString = _.get(position, 'top', '0')
@@ -23,6 +24,17 @@ const BoatFlag = ({ show = false, content = {}, position, ...rest }) => {
   const left = getLeft(position);
   const text = `"${message.substring(0, 35)}" -`;
   // console.log('BoatFlag', { show, author, message, text, rest })
+
+  useEffect(() => {
+    anime({
+      targets: '.boat-flag',
+      opacity: 1,
+      width: '500px',
+      duration: 1000,
+      easing: 'easeInOutQuad'
+    })
+  }, [])
+
   return (
     <div className={`boat-flag ${show ? 'show' : ''}`} style={{ top, left }}>
       <div className="text">{text}</div>
