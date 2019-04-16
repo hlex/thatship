@@ -1,17 +1,41 @@
 .confess-paper {
   background-color: #fff;
   padding: 30px 50px;
+  opacity: 0;
+
   .message,
   .author-container,
-  .notes {
+  .notes,
+  .submit-button {
     font-family: garidelliregular;
-  }
-  .close-button i {
-    font-size: 20px;
   }
   .required {
     color: red;
     margin-left: 5px;
+  }
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+
+.confess-paper .submit-button {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  .text {
+    opacity: 0;
+    transition: 0.3s linear;
+    margin: 5px 0;
+  }
+  .text.show {
+    opacity: 1;
+  }
+  img {
+    width: 100%;
+    height: auto;
+    max-width: 50px;
   }
 }
 
@@ -19,9 +43,10 @@
   position: absolute;
   top: 15px;
   right: 15px;
-  border: none;
-  background-color: transparent;
   padding: 10px;
+  i {
+    font-size: 20px;
+  }
 }
 
 .confess-paper .category-container {
@@ -93,6 +118,7 @@
   .author {
     margin: 30px 0 5px;
     font-size: 30px;
+    transition: 0.3s linear;
   }
   &.anonymous .author {
     text-decoration: line-through;

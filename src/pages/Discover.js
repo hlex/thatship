@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import _ from 'lodash'
 import anime from 'animejs'
 
@@ -13,13 +13,18 @@ import iconSearch from "../images/search.png";
 
 import { randomID } from "../webgl/utils";
 
+import { userContext } from '../lib'
+
+const { UserContext } = userContext
+
 let oceanModel
 let currentFlag = {}
 let boats = {}
-let x = '10'
 
 const Discover = () => {
   const [state, setState] = useState({})
+  const { user } = useContext(UserContext)
+
   let ocean = <div />
   useEffect(() => {
     // // the root model, all of the boats will be it's children
@@ -53,13 +58,13 @@ const Discover = () => {
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
-    const boat = new Boat({
-      id: randomID(),
-      message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
-      author: 'Author 1'
-    });
+    // const boat = new Boat({
+    //   id: randomID(),
+    //   message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+    //   author: 'Author 1'
+    // });
     // run the internal method of the ocean model
-    oceanModel.addBoat(boat);
+    // oceanModel.addBoat(boat);
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
@@ -70,6 +75,7 @@ const Discover = () => {
     // sample boat. Further communication with boats will occur via ID
     const boat = new Boat({
       id: randomID(),
+      category: data.category,
       message: data.message,
       author: data.author
     })
@@ -113,15 +119,41 @@ const Discover = () => {
     }
   }, 500);
 
+  const handleSubmitRegret = ({ message, category, isAnonymous }) => {
+    const author = isAnonymous ? 'Anonymous' : _.get(user, 'display_name', '')
+    const confessMessage = {
+      id: randomID(),
+      category,
+      message: `I regret ${message}`,
+      author
+    }
+
+    console.log('handleSubmitRegret', { user, confessMessage })
+
+    handleCloseConfessPaper()
+    handleAddBoat(confessMessage)
+  }
+
   const handleOpenConfessPaper = () => {
     setState({
       showConfessPaper: true
     })
   }
   const handleCloseConfessPaper = () => {
-    setState({
-      showConfessPaper: false
+
+    anime({
+      targets: '.confess-paper',
+      opacity: 0,
+      translateX: '-10%',
+      duration: 300,
+      easing: 'easeInOutQuad',
+      complete: () => {
+        setState({
+          showConfessPaper: false
+        })
+      }
     })
+
   }
 
   console.log('@Render', currentFlag, getHoveringBoat())
@@ -144,7 +176,7 @@ const Discover = () => {
           </div>
           {showFlag() && <BoatFlag content={getHoveringBoat()} position={currentFlag.position || {}} />}
           <div className="confess-paper-container">
-            {showConfessPaper && <ConfessPaper onSubmit={() => null} onClose={handleCloseConfessPaper} />}
+            {showConfessPaper && <ConfessPaper onSubmit={handleSubmitRegret} onClose={handleCloseConfessPaper} />}
           </div>
           <div id="ocean">{ocean}</div>
         </MainContent>

@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from 'lodash'
+import anime from 'animejs'
 
 import { Category } from "./";
 
+import boat2 from '../images/boat2.png'
+
 const numberOfWhiteSpace = 11
 
-export default ({ onClose = () => null }) => {
+export default ({ onSubmit = () => null, onClose = () => null }) => {
   const [message, setMessage] = useState(_.padStart('', numberOfWhiteSpace))
   const [selectedCategory, setCategory] = useState("");
-  const [anonymous, setAnonymous] = useState(false)
+  const [isAnonymous, setAnonymous] = useState(false)
+
+  useEffect(() => {
+    anime({
+      targets: '.confess-paper',
+      opacity: 1,
+      duration: 300,
+      easing: 'easeInOutQuad'
+    })
+  })
 
   const handleSelectCategory = value => {
     setCategory(value);
@@ -21,11 +33,25 @@ export default ({ onClose = () => null }) => {
     }
   }
 
-  const toggleAnonymous = () => {
-    setAnonymous(!anonymous)
+  const handleSubmit = () => {
+    if (!isReadyToSail()) {
+      alert('Your regret is not complete. Try again !')
+      return
+    }
+    onSubmit({
+      message,
+      category: selectedCategory,
+      isAnonymous
+    })
   }
 
-  console.log('>>>', anonymous)
+  const toggleAnonymous = () => {
+    setAnonymous(!isAnonymous)
+  }
+
+  const isReadyToSail = () => {
+    return !_.isEmpty(selectedCategory) && _.size(message) > numberOfWhiteSpace
+  }
 
   return (
     <div className="confess-paper">
@@ -54,14 +80,18 @@ export default ({ onClose = () => null }) => {
           onSelect={handleSelectCategory}
         />
       </div>
-      <div className={`author-container ${anonymous ? 'anonymous' : ''}`}>
+      <div className={`author-container ${isAnonymous ? 'anonymous' : ''}`}>
         <p className="author">Minnie C.</p>
         <div className="input-checkbox" onClick={toggleAnonymous}>
           <label>Remain Anonymous</label>
-          <input type="checkbox" checked={anonymous ? 'checked' : ''} />
+          <input type="checkbox" checked={isAnonymous ? 'checked' : ''} />
           <span />
         </div>
       </div>
+      <button className="submit-button" onClick={handleSubmit}>
+        <img src={boat2} alt="" />
+        <h4 className={`text ${isReadyToSail() ? 'show' : ''}`}>Sail it !</h4>
+      </button>
     </div>
   );
 };
