@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="link-list">
-        <a href="#" target="_blank"><img src={iconFB} alt="" /></a>
+        {/* <a href="#" target="_blank"><img src={iconFB} alt="" /></a> */}
         <a href="#" target="_blank"><img src={iconFB} alt="" /></a>
         <a href="#" target="_blank"><img src={iconTwitter} alt="" /></a>
         <Link to="/about"><p>About</p></Link>
