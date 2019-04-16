@@ -38,6 +38,7 @@
 
 .category .item.active .category-name {
   position: relative;
+  font-weight: 700;
   &:after {
     opacity: 1;
     transform: translateY(0);
