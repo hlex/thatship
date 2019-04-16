@@ -5,8 +5,7 @@ import anime from 'animejs'
 
 import Routes from './routes'
 
-import { Header, Footer } from './components'
-import { Home, Prelude } from './pages'
+import { Ocean } from './components'
 
 import { userContext } from './lib'
 import { storeContext } from './lib'
@@ -22,8 +21,8 @@ const App = ({ history }) => {
     <StoreProvider>
       <UserProvider>
         <div className="app">
+          <Ocean />
           <Routes />
-          {/* <Prelude onEnded={setReady} /> */}
         </div>
       </UserProvider>
     </StoreProvider>

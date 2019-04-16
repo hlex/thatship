@@ -124,7 +124,7 @@ const Prelude = ({ history }) => {
         <div className="content">
           <img id="prelude-boat" src={boat} alt="" />
           {getTexts()}
-          <Ocean />
+          {/* <Ocean /> */}
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export default () => {
   useEffect(() => {
     ocean = new Ocean();
     oceanModel = ocean
-    const oceanController = new Controller({
+    new Controller({
       model: oceanModel,
       container: "ocean"
     });
