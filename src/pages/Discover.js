@@ -137,7 +137,6 @@ const Discover = () => {
     })
   }
   const handleCloseConfessPaper = () => {
-
     anime({
       targets: '.confess-paper',
       opacity: 0,
@@ -150,7 +149,6 @@ const Discover = () => {
         })
       }
     })
-
   }
 
   console.log('@Render', currentFlag, getHoveringBoat())

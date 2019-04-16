@@ -22,8 +22,7 @@ const BoatFlag = ({ show = false, content = {}, position, ...rest }) => {
   const message = content.message || '';
   const top = getTop(position);
   const left = getLeft(position);
-  const text = `"${message.substring(0, 35)}" -`;
-  // console.log('BoatFlag', { show, author, message, text, rest })
+  const text = `"${message}"`;
 
   useEffect(() => {
     anime({
