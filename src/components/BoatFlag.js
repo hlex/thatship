@@ -1,10 +1,26 @@
 import React from "react";
+import _ from 'lodash'
+
+const getTop = (position) => {
+  const topString = _.get(position, 'top', '0')
+  const regex = /[0-9]+/ig
+  const [top] = regex.exec(topString)
+  return `${top - 100}px`
+}
+
+const getLeft = (position) => {
+  const topString = _.get(position, 'left', '0')
+  const regex = /[0-9]+/ig
+  const [left] = regex.exec(topString)
+  // return `${50}px`
+  return `${left}px`
+}
 
 const BoatFlag = ({ show = false, content = {}, position, ...rest }) => {
   const author = content.author || '';
   const message = content.message || '';
-  const top = position.top || 0;
-  const left = position.left || 0;
+  const top = getTop(position);
+  const left = getLeft(position);
   const text = `"${message.substring(0, 35)}" -`;
   // console.log('BoatFlag', { show, author, message, text, rest })
   return (

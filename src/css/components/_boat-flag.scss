@@ -17,9 +17,11 @@
 
 .boat-flag {
   position: absolute;
+  z-index: 100;
   background-color: $white;
   padding: 20px;
   opacity: 0;
+  height: 80px;
   transition: all .3s ease;
   &.show {
     opacity: 1;
@@ -27,8 +29,26 @@
   }
   &:before {
     content: "";
+    display: block;
+    position: absolute;
     height: 100px;
-    width: 1px;
+    width: 3px;
+    background-color: red;
+    left: 0;
+    top: -5px;
+
+  }
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(100%);
+    display: block;
+    border: 40px solid #FFF;
+    z-index: -1;
+    border-right-color: transparent;
   }
   .text {
 
