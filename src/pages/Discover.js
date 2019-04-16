@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import _ from 'lodash'
 import anime from 'animejs'
 
-import { MainContent, BoatFlag } from "../components";
+import { MainContent, BoatFlag, ConfessPaper } from "../components";
 
 import Controller from "../webgl/Controller";
 import Ocean from "../webgl/model/OceanModel";
@@ -113,14 +113,27 @@ const Discover = () => {
     }
   }, 500);
 
+  const handleOpenConfessPaper = () => {
+    setState({
+      showConfessPaper: true
+    })
+  }
+  const handleCloseConfessPaper = () => {
+    setState({
+      showConfessPaper: false
+    })
+  }
+
   console.log('@Render', currentFlag, getHoveringBoat())
+
+  const { showConfessPaper } = state
 
   return (
     <div className="discover-page">
       <div className="container">
         <MainContent>
           <div className="menu">
-            <div className="menu-item">
+            <div className="menu-item" onClick={handleOpenConfessPaper}>
               <img src={iconConfess} alt="" />
               <h4>confess a regret</h4>
             </div>
@@ -130,6 +143,9 @@ const Discover = () => {
             </div>
           </div>
           {showFlag() && <BoatFlag content={getHoveringBoat()} position={currentFlag.position || {}} />}
+          <div className="confess-paper-container">
+            {showConfessPaper && <ConfessPaper onSubmit={() => null} onClose={handleCloseConfessPaper} />}
+          </div>
           <div id="ocean">{ocean}</div>
         </MainContent>
       </div>

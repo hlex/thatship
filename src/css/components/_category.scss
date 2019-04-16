@@ -2,7 +2,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+}
 
+.category.dark {
+  .item {
+    color: #000;
+  }
 }
 
 .category .item {

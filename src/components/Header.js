@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import _ from 'lodash'
 
 import {
@@ -10,12 +10,22 @@ import {
 import iconMe from '../images/me.png'
 import iconCompass from '../images/navigate.png';
 
+import { storeContext } from '../lib'
+
+const { StoreContext } = storeContext
+
 const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true }) => {
+
+  const { activeCategory, setStore } = useContext(StoreContext)
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("Do you want to logout ?");
     console.log('confirmLogout', confirmLogout)
     if (confirmLogout) userLogout()
+  }
+
+  const handleSelectCategory = (categoryValue) => {
+    setStore({ activeCategory: categoryValue })
   }
 
   const renderAvatar = () => {
@@ -32,7 +42,7 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
             <p className="bold">Confess your Regret and sail it away!</p>
           </div>
           <div className={`category-list ${showCategory ? 'show' : ''}`}>
-            <Category />
+            <Category activeCategory={activeCategory} onSelect={handleSelectCategory} />
           </div>
           <div className="compass">
           </div>

@@ -1,0 +1,61 @@
+.confess-paper {
+  background-color: #FFF;
+  padding: 30px 50px;
+  .message, .author-container, .notes {
+    font-family: garidelliregular;
+  }
+  .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  .close-button i {
+    font-size: 20px;
+  }
+  .required {
+    color: red;
+    margin-left: 5px;
+  }
+}
+
+.confess-paper .category-container {
+  .title {
+    font-weight: 700;
+  }
+}
+
+.confess-paper .note-container {
+  .prefix {
+    position: absolute;
+    background-color: #FFF;
+    padding-right: 16px;
+    padding-bottom: 5px;
+    margin: 0;
+    top: 34px;
+    font-size: 28px;
+  }
+  .notes {
+    width: 100%;
+    background-image: -webkit-linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
+    background-image: -moz-linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
+    background-image: -ms-linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
+    background-image: -o-linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
+    background-image: linear-gradient(white, white 29px, #000 29px, #000 31px, white 31px);
+    background-size: 100% 41px;
+    border: none;
+    line-height: 38px;
+    font-size: 28px;
+    resize: none;
+    overflow: hidden;
+  }
+  .notes:focus {
+    outline: none;
+  }
+}
+
+.confess-paper .author-container {
+  .author {
+    margin: 30px 0 5px;
+    font-size: 30px;
+  }
+}
