@@ -13,11 +13,12 @@ import iconSearch from "../images/search.png";
 import { randomID } from "../webgl/utils";
 
 let oceanModel
+let currentFlag = {}
+let boats = {}
+let x = '10'
 
 const Discover = () => {
-  const [boats, setBoats] = useState({})
-  const [currentFlag, setCurrentFlag] = useState({})
-
+  const [state, setState] = useState({})
   let ocean = <div />
   useEffect(() => {
     // // the root model, all of the boats will be it's children
@@ -36,16 +37,16 @@ const Discover = () => {
     oceanModel.addObserver("BoatModelAdded", e => {
       console.log("BoatModelAdded");
       // addBoat()
-      const nextBoats = Object.assign({}, boats, {
+      boats = _.assign({}, boats, {
         [e.boat.id]: e.boat
       });
-      setBoats(nextBoats)
     });
 
     oceanController.addObserver("BoatHover", data => hoverBoat(data));
     oceanController.addObserver("BoatSelect", e => {
-      this.selectedId = e.id;
-      this.isEditMode = true;
+      console.log('BoatSelect', e)
+      // this.selectedId = e.id;
+      // this.isEditMode = true;
     });
     oceanController.addObserver("ClearHover", () => clearHover());
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
@@ -82,21 +83,26 @@ const Discover = () => {
     // this.isEditMode = false;
     // this.selectedId = null;
   };
-  const clearHover = _.throttle(forced => {
-    const hoveringBoat = getHoveringBoat()
-    console.log('clearHover', forced, hoveringBoat, _.isEmpty(hoveringBoat))
+
+  const clearHover = _.throttle(() => {
+    const hoveringBoat = _.find(boats, boat => boat.id === currentFlag.id)
+    // console.log('clearHover', { currentFlag, boats, hoveringBoat, isEmptyHoveringBoat: !_.isEmpty(hoveringBoat) })
     if (!_.isEmpty(hoveringBoat)) {
-      setCurrentFlag(null)
+      currentFlag = {}
+      setState({ _t: Date.now() })
     }
+    // }
   }, 500);
   const hoverBoat = _.throttle(({ id, position }) => {
     // console.log('hoverBoat', { id, position })
     if (currentFlag.id !== id) {
-      setCurrentFlag({
+      currentFlag = {
         id,
         position
-      })
+      }
+      setState({ _t: Date.now() })
     }
+
   }, 500);
 
   console.log('@Render', currentFlag, getHoveringBoat())
