@@ -23,7 +23,7 @@ let boats = {}
 
 const Discover = () => {
   const [state, setState] = useState({})
-  const { user } = useContext(UserContext)
+  const { getUserDisplayName } = useContext(UserContext)
 
   let ocean = <div />
   useEffect(() => {
@@ -120,16 +120,13 @@ const Discover = () => {
   }, 500);
 
   const handleSubmitRegret = ({ message, category, isAnonymous }) => {
-    const author = isAnonymous ? 'Anonymous' : _.get(user, 'display_name', '')
+    const author = isAnonymous ? 'Anonymous' : getUserDisplayName()
     const confessMessage = {
       id: randomID(),
       category,
       message: `I regret ${message}`,
       author
     }
-
-    console.log('handleSubmitRegret', { user, confessMessage })
-
     handleCloseConfessPaper()
     handleAddBoat(confessMessage)
   }

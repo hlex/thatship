@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import _ from 'lodash'
 import anime from 'animejs'
 
@@ -6,9 +6,16 @@ import { Category } from "./";
 
 import boat2 from '../images/boat2.png'
 
+import { userContext } from '../lib'
+
+const { UserContext } = userContext
+
 const numberOfWhiteSpace = 11
 
 export default ({ onSubmit = () => null, onClose = () => null }) => {
+
+  const { getUserDisplayName } = useContext(UserContext)
+
   const [message, setMessage] = useState(_.padStart('', numberOfWhiteSpace))
   const [selectedCategory, setCategory] = useState("");
   const [isAnonymous, setAnonymous] = useState(false)
@@ -81,7 +88,7 @@ export default ({ onSubmit = () => null, onClose = () => null }) => {
         />
       </div>
       <div className={`author-container ${isAnonymous ? 'anonymous' : ''}`}>
-        <p className="author">Minnie C.</p>
+        <p className="author">{getUserDisplayName()}</p>
         <div className="input-checkbox" onClick={toggleAnonymous}>
           <label>Remain Anonymous</label>
           <input type="checkbox" checked={isAnonymous ? 'checked' : ''} />
