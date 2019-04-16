@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import _ from 'lodash'
+import anime from 'animejs'
 
-import { MainContent, BoatFlag } from "../components";
+import { MainContent, BoatFlag, ConfessPaper } from "../components";
 
 import Controller from "../webgl/Controller";
 import Ocean from "../webgl/model/OceanModel";
@@ -12,11 +13,17 @@ import iconSearch from "../images/search.png";
 
 import { randomID } from "../webgl/utils";
 
+import { userContext } from '../lib'
+
+const { UserContext } = userContext
+
 let oceanModel
+let currentFlag = {}
+let boats = {}
 
 const Discover = () => {
-  const [boats, setBoats] = useState({})
-  const [currentFlag, setCurrentFlag] = useState({})
+  const [state, setState] = useState({})
+  const { getUserDisplayName } = useContext(UserContext)
 
   let ocean = <div />
   useEffect(() => {
@@ -36,28 +43,28 @@ const Discover = () => {
     oceanModel.addObserver("BoatModelAdded", e => {
       console.log("BoatModelAdded");
       // addBoat()
-      const nextBoats = Object.assign({}, boats, {
+      boats = _.assign({}, boats, {
         [e.boat.id]: e.boat
       });
-      setBoats(nextBoats)
     });
 
     oceanController.addObserver("BoatHover", data => hoverBoat(data));
     oceanController.addObserver("BoatSelect", e => {
-      this.selectedId = e.id;
-      this.isEditMode = true;
+      console.log('BoatSelect', e)
+      // this.selectedId = e.id;
+      // this.isEditMode = true;
     });
     oceanController.addObserver("ClearHover", () => clearHover());
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
-    const boat = new Boat({
-      id: randomID(),
-      message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
-      author: 'Author 1'
-    });
+    // const boat = new Boat({
+    //   id: randomID(),
+    //   message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+    //   author: 'Author 1'
+    // });
     // run the internal method of the ocean model
-    oceanModel.addBoat(boat);
+    // oceanModel.addBoat(boat);
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
@@ -68,6 +75,7 @@ const Discover = () => {
     // sample boat. Further communication with boats will occur via ID
     const boat = new Boat({
       id: randomID(),
+      category: data.category,
       message: data.message,
       author: data.author
     })
@@ -82,32 +90,77 @@ const Discover = () => {
     // this.isEditMode = false;
     // this.selectedId = null;
   };
-  const clearHover = _.throttle(forced => {
-    const hoveringBoat = getHoveringBoat()
-    console.log('clearHover', forced, hoveringBoat, _.isEmpty(hoveringBoat))
+
+  const clearHover = _.throttle(() => {
+    const hoveringBoat = _.find(boats, boat => boat.id === currentFlag.id)
+    // console.log('clearHover', { currentFlag, boats, hoveringBoat, isEmptyHoveringBoat: !_.isEmpty(hoveringBoat) })
     if (!_.isEmpty(hoveringBoat)) {
-      setCurrentFlag(null)
+      anime({
+        targets: '.boat-flag',
+        opacity: 0,
+        width: 0,
+        duration: 1000,
+        easing: 'easeInOutQuad',
+        complete: () => {
+          currentFlag = {}
+          setState({ _t: Date.now() })
+        }
+      })
     }
-  }, 500);
+  }, 2500);
   const hoverBoat = _.throttle(({ id, position }) => {
     // console.log('hoverBoat', { id, position })
     if (currentFlag.id !== id) {
-      setCurrentFlag({
+      currentFlag = {
         id,
         position
-      })
+      }
+      setState({ _t: Date.now() })
     }
   }, 500);
 
+  const handleSubmitRegret = ({ message, category, isAnonymous }) => {
+    const author = isAnonymous ? 'Anonymous' : getUserDisplayName()
+    const confessMessage = {
+      id: randomID(),
+      category,
+      message: `I regret ${message}`,
+      author
+    }
+    handleCloseConfessPaper()
+    handleAddBoat(confessMessage)
+  }
+
+  const handleOpenConfessPaper = () => {
+    setState({
+      showConfessPaper: true
+    })
+  }
+  const handleCloseConfessPaper = () => {
+    anime({
+      targets: '.confess-paper',
+      opacity: 0,
+      translateX: '-10%',
+      duration: 300,
+      easing: 'easeInOutQuad',
+      complete: () => {
+        setState({
+          showConfessPaper: false
+        })
+      }
+    })
+  }
+
   console.log('@Render', currentFlag, getHoveringBoat())
+
+  const { showConfessPaper } = state
 
   return (
     <div className="discover-page">
       <div className="container">
         <MainContent>
-          {/* <button className="test-button" onClick={handleAddBoat}>Add Boat</button> */}
           <div className="menu">
-            <div className="menu-item">
+            <div className="menu-item" onClick={handleOpenConfessPaper}>
               <img src={iconConfess} alt="" />
               <h4>confess a regret</h4>
             </div>
@@ -116,7 +169,10 @@ const Discover = () => {
               <h4>search for regrets</h4>
             </div>
           </div>
-          <BoatFlag show={showFlag()} content={getHoveringBoat()} position={currentFlag.position || {}} />
+          {showFlag() && <BoatFlag content={getHoveringBoat()} position={currentFlag.position || {}} />}
+          <div className="confess-paper-container">
+            {showConfessPaper && <ConfessPaper onSubmit={handleSubmitRegret} onClose={handleCloseConfessPaper} />}
+          </div>
           <div id="ocean">{ocean}</div>
         </MainContent>
       </div>

@@ -1,6 +1,10 @@
 import React from 'react'
 import map from 'lodash/map'
 
+import { storeContext } from '../lib'
+
+const { StoreContext } = storeContext
+
 const categories = [
   {
     label: 'self-worth',
@@ -54,14 +58,15 @@ const categories = [
   }
 ]
 
-const Category = ({ activeCategory }) => {
+const Category = ({ theme, activeCategory, onSelect }) => {
   return (
-    <div className="category">
+    <div className={`category ${theme}`}>
       {
         map(categories, ({ color, label, value }) => {
           return (
-            <div key={value} className={`item ${value === activeCategory ? 'active' : ''}`}>
-              <span className="color-tag circle" style={{ backgroundColor: `${color}` }} />{label}
+            <div key={value} className={`item ${value === activeCategory ? 'active' : ''}`} onClick={() => onSelect(value)}>
+              <span className="color-tag circle" style={{ backgroundColor: `${color}` }} />
+              <span className="category-name">{label}</span>
             </div>
           )
         })

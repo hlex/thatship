@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import _ from 'lodash'
 
 import firebase from '../firebase'
 
@@ -47,7 +48,9 @@ const UserProvider = ({ children }) => {
     setUser({})
   }
 
-  return <Provider value={{ user, userLogin, userLogout, isLoggedIn }}>{children}</Provider>;
+  const getUserDisplayName = () => _.get(user, 'display_name', '')
+
+  return <Provider value={{ user, userLogin, userLogout, isLoggedIn, getUserDisplayName }}>{children}</Provider>;
 };
 
 export default {

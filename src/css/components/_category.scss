@@ -2,7 +2,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+}
 
+.category.dark {
+  .item {
+    color: #000;
+  }
+  .item .category-name:after {
+    background-color: #000;
+  }
 }
 
 .category .item {
@@ -12,6 +21,37 @@
   align-items: center;
   font-size: 12px;
   margin-bottom: 8px;
+  position: relative;
+  cursor: pointer;
+}
+
+.category .item .category-name {
+  position: relative;
+  &:after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    background-color: #FFF;
+    width: 100%;
+    right: 0;
+    bottom: -2px;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: 0.3s linear;
+  }
+  &:hover:after {
+    opacity: 1;
+    transform: translateY(-0%);
+  }
+}
+
+.category .item.active .category-name {
+  position: relative;
+  font-weight: 700;
+  &:after {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .category .item:not(:last-child) {

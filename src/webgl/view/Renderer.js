@@ -38,6 +38,7 @@ export default class Renderer {
     controls.maxDistance = camera.far / 2;
     controls.maxPolarAngle = Math.PI / 2.3;
 
+    // camera.position.set(150, 0, 300);
     camera.position.set(75, 50, 50);
 
     // const helper = new THREE.GridHelper( 10000,10 );
@@ -60,7 +61,6 @@ export default class Renderer {
     scene.fog = new THREE.Fog(0x111111);
 
     return { scene, camera, renderer, controls };
-    // return { scene, camera, renderer, controls };
   }
 
   initialize(onAfterInit) {

@@ -8,3 +8,4 @@ export { default as Title } from "./Title";
 export { default as Avatar } from "./Avatar";
 export { default as BoatFlag } from "./BoatFlag";
 export { default as Ocean } from "./Ocean";
+export { default as ConfessPaper } from "./ConfessPaper";
