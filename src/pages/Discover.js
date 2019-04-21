@@ -76,12 +76,12 @@ const Discover = () => {
         id: randomID(),
         message: `${category.label}`,
         author: 'Author 1',
-        category: category.label,
+        category: category.value,
         color: getCategoryColorCode(category.value)
       });
       // run the internal method of the ocean model
       oceanModel.addBoat(boat);
-      await sleep(0.1)
+      await sleep(0.2)
     }
   }, []);
 
