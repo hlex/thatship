@@ -13,7 +13,10 @@ import iconSearch from "../images/search.png";
 
 import { randomID } from "../webgl/utils";
 
+import { appCategories, getCategoryColorCode } from '../utils'
+
 import { userContext } from '../lib'
+import { resolve } from "uri-js";
 
 const { UserContext } = userContext
 
@@ -21,12 +24,20 @@ let oceanModel
 let currentFlag = {}
 let boats = {}
 
+const sleep = (second) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(true)
+    }, second * 1000)
+  })
+}
+
 const Discover = () => {
   const [state, setState] = useState({})
   const { getUserDisplayName } = useContext(UserContext)
 
   let ocean = <div />
-  useEffect(() => {
+  useEffect(async () => {
     // // the root model, all of the boats will be it's children
     // // oceanModel = new Ocean();
     ocean = new Ocean();
@@ -58,69 +69,20 @@ const Discover = () => {
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
-    const categories = [
-      {
-        label: 'self-worth',
-        value: 'self-worth',
-        colorClass: 'dark-blue'
-      },
-      {
-        label: 'family',
-        value: 'family',
-        colorClass: 'mid-blue'
-      },
-      {
-        label: 'friends',
-        value: 'friends',
-        colorClass: 'light-blue'
-      },
-      {
-        label: 'health',
-        value: 'health',
-        colorClass: 'green'
-      },
-      {
-        label: 'education',
-        value: 'education',
-        colorClass: 'light-green'
-      },
-      {
-        label: 'career',
-        value: 'career',
-        colorClass: 'yellow'
-      },
-      {
-        label: 'bucket list',
-        value: 'bucketList',
-        colorClass: 'orange'
-      },
-      {
-        label: 'financial',
-        value: 'financial',
-        colorClass: 'dark-pink'
-      },
-      {
-        label: 'love',
-        value: 'love',
-        colorClass: 'pink'
-      },
-      {
-        label: 'other',
-        value: 'other',
-        colorClass: 'purple'
-      }
-    ]
-    for (const i in categories) {
-      const category = categories[i]
-      const boat = new Boat({
-        id: randomID(),
-        message: `${category.label}`,
-        author: 'Author 1',
-        category: category.label
-      });
-      // run the internal method of the ocean model
-      oceanModel.addBoat(boat);
-    }
+    // for (const i in appCategories) {
+    //   console.log('Start Import Boat')
+    //   const category = appCategories[i]
+    //   const boat = new Boat({
+    //     id: randomID(),
+    //     message: `${category.label}`,
+    //     author: 'Author 1',
+    //     category: category.label,
+    //     color: getCategoryColorCode(category.value)
+    //   });
+    //   // run the internal method of the ocean model
+    //   oceanModel.addBoat(boat);
+    //   await sleep(0.1)
+    // }
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
@@ -133,7 +95,8 @@ const Discover = () => {
       id: randomID(),
       category: data.category,
       message: data.message,
-      author: data.author
+      author: data.author,
+      color: getCategoryColorCode(data.category)
     })
     oceanModel.addBoat(boat)
     // this.isCreateMode = false;

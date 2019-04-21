@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "animejs": "^3.0.1",
+    "color-convert": "^2.0.0",
     "dat.gui": "^0.7.6",
     "firebase": "^5.9.1",
     "firebaseui": "^3.5.2",

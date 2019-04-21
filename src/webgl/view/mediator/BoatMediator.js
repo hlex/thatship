@@ -1,5 +1,6 @@
 import Observer from "../../Observer";
 import * as THREE from "three-full";
+import convert from 'color-convert';
 
 import { MTLLoader, OBJLoader } from "three-obj-mtl-loader";
 
@@ -25,14 +26,12 @@ export default class BoatMediator extends Observer {
     this.object3D.name = model.name;
     this.cachedModel = null;
 
-    this.buildObject3D = async position => {
+    this.buildObject3D = async (position, color) => {
+      const [r, g, b] = convert.hex.rgb(color);
       try {
         const result = await this.buildBoat();
-
-        this.object3D.children[0].material.color.lerp(
-          new THREE.Color(0xffffff * Math.random()),
-          0.5
-        );
+        // this.object3D.children[0].material.color.lerp(new THREE.Color(0xffffff * Math.random()), 0.5);
+        this.object3D.children[0].material.color.lerp(new THREE.Color(`rgb(${r}, ${g}, ${b})`), 1);
         this.object3D.position.copy(position);
         this.loaded = true;
 
