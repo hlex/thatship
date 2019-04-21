@@ -66,4 +66,34 @@
   &.circle {
     border-radius: 100%;
   }
+  &.dark-blue {
+    background-color: $dark-blue;
+  }
+  &.mid-blue {
+    background-color: $mid-blue;
+  }
+  &.light-blue {
+    background-color: $light-blue;
+  }
+  &.green {
+    background-color: $green;
+  }
+  &.light-green {
+    background-color: $light-green;
+  }
+  &.yellow {
+    background-color: $yellow;
+  }
+  &.orange {
+    background-color: $orange;
+  }
+  &.dark-pink {
+    background-color: $dark-pink;
+  }
+  &.pink {
+    background-color: $pink;
+  }
+  &.purple {
+    background-color: $purple;
+  }
 }

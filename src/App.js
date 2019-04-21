@@ -13,15 +13,14 @@ import { storeContext } from './lib'
 const { UserProvider } = userContext
 const { StoreProvider } = storeContext
 
-const App = ({ history }) => {
-  // const handleEndPrelude = () => {
-  //   history.push('/menu')
-  // }
+const App = (props) => {
+  const { history } = props
+  const isDiscoverPage = history.location.pathname === '/discover'
   return (
     <StoreProvider>
       <UserProvider>
         <div className="app">
-          <Ocean />
+          {!isDiscoverPage && <Ocean />}
           <Routes />
         </div>
       </UserProvider>

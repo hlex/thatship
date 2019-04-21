@@ -48,13 +48,13 @@ const Discover = () => {
       });
     });
 
-    oceanController.addObserver("BoatHover", data => hoverBoat(data));
-    oceanController.addObserver("BoatSelect", e => {
+    oceanController.addObserver("BoatHover", data => hoverBoat(data)); // eslint-disable-line
+    oceanController.addObserver("BoatSelect", e => { // eslint-disable-line
       console.log('BoatSelect', e)
       // this.selectedId = e.id;
       // this.isEditMode = true;
     });
-    oceanController.addObserver("ClearHover", () => clearHover());
+    oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
@@ -173,7 +173,7 @@ const Discover = () => {
           <div className="confess-paper-container">
             {showConfessPaper && <ConfessPaper onSubmit={handleSubmitRegret} onClose={handleCloseConfessPaper} />}
           </div>
-          <div id="ocean">{ocean}</div>
+          <div id="ocean" />
         </MainContent>
       </div>
     </div>
