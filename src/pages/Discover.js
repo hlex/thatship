@@ -69,20 +69,20 @@ const Discover = () => {
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
-    // for (const i in appCategories) {
-    //   console.log('Start Import Boat')
-    //   const category = appCategories[i]
-    //   const boat = new Boat({
-    //     id: randomID(),
-    //     message: `${category.label}`,
-    //     author: 'Author 1',
-    //     category: category.label,
-    //     color: getCategoryColorCode(category.value)
-    //   });
-    //   // run the internal method of the ocean model
-    //   oceanModel.addBoat(boat);
-    //   await sleep(0.1)
-    // }
+    for (const i in appCategories) {
+      console.log('Start Import Boat')
+      const category = appCategories[i]
+      const boat = new Boat({
+        id: randomID(),
+        message: `${category.label}`,
+        author: 'Author 1',
+        category: category.label,
+        color: getCategoryColorCode(category.value)
+      });
+      // run the internal method of the ocean model
+      oceanModel.addBoat(boat);
+      await sleep(0.1)
+    }
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
