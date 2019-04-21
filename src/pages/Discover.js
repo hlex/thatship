@@ -22,7 +22,9 @@ const { UserContext } = userContext
 
 let oceanModel
 let currentFlag = {}
+let currentBoat = {}
 let boats = {}
+
 
 const sleep = (second) => {
   return new Promise((resolve, reject) => {
@@ -62,8 +64,7 @@ const Discover = () => {
     oceanController.addObserver("BoatHover", data => hoverBoat(data)); // eslint-disable-line
     oceanController.addObserver("BoatSelect", e => { // eslint-disable-line
       console.log('BoatSelect', e)
-      // this.selectedId = e.id;
-      // this.isEditMode = true;
+      handleEditBoat(e)
     });
     oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
@@ -88,6 +89,10 @@ const Discover = () => {
   const showFlag = () => !_.isEmpty(currentFlag.id)
   const getHoveringBoat = () => _.find(boats, boat => boat.id === currentFlag.id)
 
+  const render = () => {
+    setState({ _t: Date.now() })
+  }
+
   const handleAddBoat = data => {
     console.log('handleAddBoat', data)
     // sample boat. Further communication with boats will occur via ID
@@ -101,13 +106,10 @@ const Discover = () => {
     oceanModel.addBoat(boat)
     // this.isCreateMode = false;
   };
-  const editBoat = data => {
-    // this.boats[this.selectedId] = Object.assign(
-    //   this.boats[this.selectedId],
-    //   data
-    // );
-    // this.isEditMode = false;
-    // this.selectedId = null;
+  const handleEditBoat = data => {
+    console.log('handleAddBoat', data)
+    currentBoat.id = data.id
+    render()
   };
 
   const clearHover = _.throttle(() => {
@@ -122,7 +124,7 @@ const Discover = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           currentFlag = {}
-          setState({ _t: Date.now() })
+          render()
         }
       })
     }
@@ -134,7 +136,7 @@ const Discover = () => {
         id,
         position
       }
-      setState({ _t: Date.now() })
+      render()
     }
   }, 500);
 
@@ -170,7 +172,7 @@ const Discover = () => {
     })
   }
 
-  console.log('@Render', currentFlag, getHoveringBoat())
+  console.log('@Render', { currentFlag, hoveringBoat: getHoveringBoat(), currentBoat })
 
   const { showConfessPaper } = state
 
