@@ -22,9 +22,9 @@ const { UserContext } = userContext
 
 let oceanModel
 let currentFlag = {}
-let currentBoat = {}
+let editingBoat = {}
 let boats = {}
-
+let author = ""
 
 const sleep = (second) => {
   return new Promise((resolve, reject) => {
@@ -106,10 +106,15 @@ const Discover = () => {
     oceanModel.addBoat(boat)
     // this.isCreateMode = false;
   };
-  const handleEditBoat = data => {
-    console.log('handleAddBoat', data)
-    currentBoat.id = data.id
-    render()
+  const handleEditBoat = ({ id }) => {
+    const targetBoat = _.find(boats, boat => boat.id === id)
+    console.log('handleEditBoat', { id, targetBoat, author })
+    if (targetBoat.author === author) {
+      editingBoat.id = id
+      render()
+    } else {
+      alert('Can edit only your own boat.')
+    }
   };
 
   const clearHover = _.throttle(() => {
@@ -172,7 +177,9 @@ const Discover = () => {
     })
   }
 
-  console.log('@Render', { currentFlag, hoveringBoat: getHoveringBoat(), currentBoat })
+  console.log('@Render', { user: getUserDisplayName(), currentFlag, hoveringBoat: getHoveringBoat(), editingBoat })
+
+  author = getUserDisplayName()
 
   const { showConfessPaper } = state
 
@@ -190,9 +197,20 @@ const Discover = () => {
               <h4>search for regrets</h4>
             </div>
           </div>
-          {showFlag() && <BoatFlag boat={getHoveringBoat()} position={currentFlag.position || {}} />}
+          {showFlag() && (
+            <BoatFlag
+              boat={getHoveringBoat()}
+              position={currentFlag.position || {}}
+            />
+          )}
           <div className="confess-paper-container">
-            {showConfessPaper && <ConfessPaper onSubmit={handleSubmitRegret} onClose={handleCloseConfessPaper} />}
+            {showConfessPaper && (
+              <ConfessPaper
+
+                onSubmit={handleSubmitRegret}
+                onClose={handleCloseConfessPaper}
+              />
+            )}
           </div>
           <div id="ocean" />
         </MainContent>

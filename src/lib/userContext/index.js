@@ -21,10 +21,14 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     if (!verifiedUser) {
       firebase.auth().onAuthStateChanged((result) => {
+        console.log('onAuthStateChanged', result)
         if (result) {
           const localStorageUser = localStorage.getItem('localStorageUser')
-          if (localStorageUser) {
-            setUser(JSON.parse(localStorageUser))
+          console.log('onAuthStateChanged', localStorageUser)
+          if (localStorageUser !== undefined) {
+            const userToSet = JSON.parse(localStorageUser)
+            console.log('onAuthStateChanged', userToSet)
+            setUser(userToSet)
           }
         }
         setVerifyUser(true)
@@ -48,7 +52,10 @@ const UserProvider = ({ children }) => {
     setUser({})
   }
 
-  const getUserDisplayName = () => _.get(user, 'display_name', '')
+  const getUserDisplayName = () => {
+    console.log('getUserDisplayName', user)
+    return _.get(user, 'display_name', '')
+  }
 
   return <Provider value={{ user, userLogin, userLogout, isLoggedIn, getUserDisplayName }}>{children}</Provider>;
 };
