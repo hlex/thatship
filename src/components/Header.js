@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import _ from 'lodash'
+import { Link } from 'react-router-dom'
 
 import {
   AppLogo,
@@ -30,7 +31,7 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
 
   const renderAvatar = () => {
     if (isLoggedIn) return <Avatar src={user.imageProfile} onClick={handleLogout} />
-    return <img src={iconMe} alt="" />
+    return <Link to="/login"><img src={iconMe} alt="" /></Link>
   }
 
   return (
@@ -46,7 +47,7 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
           </div>
           <div className="compass">
           </div>
-          <div className={`user-zone ${isLoggedIn ? 'show' : ''}`}>
+          <div className={`user-zone show`}>
             <img src={iconCompass} alt="" />
             {renderAvatar()}
           </div>

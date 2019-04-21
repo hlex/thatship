@@ -39,7 +39,25 @@ const Discover = () => {
   const { getUserDisplayName } = useContext(UserContext)
 
   let ocean = <div />
-  useEffect(async () => {
+  useEffect(() => {
+
+    const generateDemoBoats = async () => {
+      for (const i in appCategories) {
+        console.log('Start Import Boat')
+        const category = appCategories[i]
+        const boat = new Boat({
+          id: randomID(),
+          message: `${category.label}`,
+          author: 'Author 1',
+          category: category.value,
+          color: getCategoryColorCode(category.value)
+        });
+        // run the internal method of the ocean model
+        oceanModel.addBoat(boat);
+        await sleep(0.2)
+      }
+    }
+
     // // the root model, all of the boats will be it's children
     // // oceanModel = new Ocean();
     ocean = new Ocean();
@@ -70,20 +88,7 @@ const Discover = () => {
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
-    for (const i in appCategories) {
-      console.log('Start Import Boat')
-      const category = appCategories[i]
-      const boat = new Boat({
-        id: randomID(),
-        message: `${category.label}`,
-        author: 'Author 1',
-        category: category.value,
-        color: getCategoryColorCode(category.value)
-      });
-      // run the internal method of the ocean model
-      oceanModel.addBoat(boat);
-      await sleep(0.2)
-    }
+    generateDemoBoats()
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
