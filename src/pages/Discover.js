@@ -150,19 +150,19 @@ const Discover = () => {
   const clearHover = _.throttle(() => {
     const hoveringBoat = _.find(boats, boat => boat.id === currentFlag.id)
     // console.log('clearHover', { currentFlag, boats, hoveringBoat, isEmptyHoveringBoat: !_.isEmpty(hoveringBoat) })
-    // if (!_.isEmpty(hoveringBoat)) {
-    //   anime({
-    //     targets: '.boat-flag',
-    //     opacity: 0,
-    //     width: 0,
-    //     duration: 1000,
-    //     easing: 'easeInOutQuad',
-    //     complete: () => {
-    //       currentFlag = {}
-    //       setState({ _t: Date.now() })
-    //     }
-    //   })
-    // }
+    if (!_.isEmpty(hoveringBoat)) {
+      anime({
+        targets: '.boat-flag',
+        opacity: 0,
+        width: 0,
+        duration: 1000,
+        easing: 'easeInOutQuad',
+        complete: () => {
+          currentFlag = {}
+          setState({ _t: Date.now() })
+        }
+      })
+    }
   }, 2500);
   const hoverBoat = _.throttle(({ id, position }) => {
     // console.log('hoverBoat', { id, position })
