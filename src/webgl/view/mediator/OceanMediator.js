@@ -64,11 +64,12 @@ export default class OceanMediator extends Observer {
     };
 
     const position = findPosition();
+    const color = child.color
 
     const mediator = MediatorFactory.getMediator(child);
     this.childMediators.set(child, mediator);
 
-    const object3D = await mediator.buildObject3D(position);
+    const object3D = await mediator.buildObject3D(position, color);
 
     // create ref to a mediator
     object3D.userData.mediator = mediator;

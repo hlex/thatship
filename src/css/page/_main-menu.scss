@@ -23,6 +23,11 @@
 .main-menu-page > .choice-container >  .choice-item {
   opacity: 0;
   margin: 0 (2*$space);
+  transition: 0.3s ease-out;
+  &:hover {
+    transform: scale(1.25);
+  }
+
   > .img-icon {
     display: flex;
     justify-content: center;

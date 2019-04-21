@@ -66,4 +66,34 @@
   &.circle {
     border-radius: 100%;
   }
+  &.self-worth {
+    background-color: $dark-blue;
+  }
+  &.family {
+    background-color: $mid-blue;
+  }
+  &.friends {
+    background-color: $light-blue;
+  }
+  &.health {
+    background-color: $green;
+  }
+  &.education {
+    background-color: $light-green;
+  }
+  &.career {
+    background-color: $yellow;
+  }
+  &.bucketList {
+    background-color: $orange;
+  }
+  &.financial {
+    background-color: $dark-pink;
+  }
+  &.love {
+    background-color: $pink;
+  }
+  &.other {
+    background-color: $purple;
+  }
 }

@@ -17,9 +17,8 @@ const getLeft = (position) => {
   return `${left}px`
 }
 
-const BoatFlag = ({ show = false, content = {}, position, ...rest }) => {
-  const author = content.author || '';
-  const message = content.message || '';
+const BoatFlag = ({ show = false, boat = {}, position }) => {
+  const { author = '', message = '', category = '' } = boat
   const top = getTop(position);
   const left = getLeft(position);
   const text = `"${message}"`;
@@ -35,7 +34,7 @@ const BoatFlag = ({ show = false, content = {}, position, ...rest }) => {
   }, [])
 
   return (
-    <div className={`boat-flag ${show ? 'show' : ''}`} style={{ top, left }}>
+    <div className={`boat-flag ${show ? 'show' : ''} ${category}`} style={{ top, left }}>
       <div className="text">{text}</div>
       <div className="author">{author}</div>
     </div>

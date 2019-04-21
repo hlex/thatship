@@ -13,7 +13,10 @@ import iconSearch from "../images/search.png";
 
 import { randomID } from "../webgl/utils";
 
+import { appCategories, getCategoryColorCode } from '../utils'
+
 import { userContext } from '../lib'
+import { resolve } from "uri-js";
 
 const { UserContext } = userContext
 
@@ -21,12 +24,20 @@ let oceanModel
 let currentFlag = {}
 let boats = {}
 
+const sleep = (second) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(true)
+    }, second * 1000)
+  })
+}
+
 const Discover = () => {
   const [state, setState] = useState({})
   const { getUserDisplayName } = useContext(UserContext)
 
   let ocean = <div />
-  useEffect(() => {
+  useEffect(async () => {
     // // the root model, all of the boats will be it's children
     // // oceanModel = new Ocean();
     ocean = new Ocean();
@@ -48,23 +59,30 @@ const Discover = () => {
       });
     });
 
-    oceanController.addObserver("BoatHover", data => hoverBoat(data));
-    oceanController.addObserver("BoatSelect", e => {
+    oceanController.addObserver("BoatHover", data => hoverBoat(data)); // eslint-disable-line
+    oceanController.addObserver("BoatSelect", e => { // eslint-disable-line
       console.log('BoatSelect', e)
       // this.selectedId = e.id;
       // this.isEditMode = true;
     });
-    oceanController.addObserver("ClearHover", () => clearHover());
+    oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
-    // const boat = new Boat({
-    //   id: randomID(),
-    //   message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
-    //   author: 'Author 1'
-    // });
-    // run the internal method of the ocean model
-    // oceanModel.addBoat(boat);
+    for (const i in appCategories) {
+      console.log('Start Import Boat')
+      const category = appCategories[i]
+      const boat = new Boat({
+        id: randomID(),
+        message: `${category.label}`,
+        author: 'Author 1',
+        category: category.label,
+        color: getCategoryColorCode(category.value)
+      });
+      // run the internal method of the ocean model
+      oceanModel.addBoat(boat);
+      await sleep(0.1)
+    }
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
@@ -77,7 +95,8 @@ const Discover = () => {
       id: randomID(),
       category: data.category,
       message: data.message,
-      author: data.author
+      author: data.author,
+      color: getCategoryColorCode(data.category)
     })
     oceanModel.addBoat(boat)
     // this.isCreateMode = false;
@@ -169,11 +188,11 @@ const Discover = () => {
               <h4>search for regrets</h4>
             </div>
           </div>
-          {showFlag() && <BoatFlag content={getHoveringBoat()} position={currentFlag.position || {}} />}
+          {showFlag() && <BoatFlag boat={getHoveringBoat()} position={currentFlag.position || {}} />}
           <div className="confess-paper-container">
             {showConfessPaper && <ConfessPaper onSubmit={handleSubmitRegret} onClose={handleCloseConfessPaper} />}
           </div>
-          <div id="ocean">{ocean}</div>
+          <div id="ocean" />
         </MainContent>
       </div>
     </div>

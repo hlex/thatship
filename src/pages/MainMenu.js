@@ -66,7 +66,7 @@ const MainMenu = () => {
           <h4>explore all regrets</h4>
         </Link>
       </div>
-      <Ocean />
+      {/* <Ocean /> */}
     </div>
   )
 }

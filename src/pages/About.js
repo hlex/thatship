@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 
-import { MainContent, Paper, Title } from "../components";
+import { MainContent, Paper, Title, Ocean } from "../components";
 
 const Credit = ({ history }) => {
   const handleGoToMenu = () => {
@@ -49,6 +49,7 @@ const Credit = ({ history }) => {
               }
             />
           </div>
+          {/* <Ocean /> */}
         </MainContent>
       </div>
     </div>

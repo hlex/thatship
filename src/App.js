@@ -5,8 +5,7 @@ import anime from 'animejs'
 
 import Routes from './routes'
 
-import { Header, Footer } from './components'
-import { Home, Prelude } from './pages'
+import { Ocean } from './components'
 
 import { userContext } from './lib'
 import { storeContext } from './lib'
@@ -14,16 +13,15 @@ import { storeContext } from './lib'
 const { UserProvider } = userContext
 const { StoreProvider } = storeContext
 
-const App = ({ history }) => {
-  // const handleEndPrelude = () => {
-  //   history.push('/menu')
-  // }
+const App = (props) => {
+  const { history } = props
+  const isDiscoverPage = history.location.pathname === '/discover'
   return (
     <StoreProvider>
       <UserProvider>
         <div className="app">
+          {!isDiscoverPage && <Ocean />}
           <Routes />
-          {/* <Prelude onEnded={setReady} /> */}
         </div>
       </UserProvider>
     </StoreProvider>
