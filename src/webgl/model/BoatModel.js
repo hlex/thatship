@@ -8,6 +8,7 @@ export default class Boat extends Observer {
     this.id = data.id;
     this.message = data.message || "...";
     this.author = data.author || "Author";
+    this.category = data.category;
     this.className = "Boat";
   }
 }

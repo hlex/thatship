@@ -58,13 +58,69 @@ const Discover = () => {
     // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
     //sample boat. Further communication with boats will occur via ID
-    // const boat = new Boat({
-    //   id: randomID(),
-    //   message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
-    //   author: 'Author 1'
-    // });
-    // run the internal method of the ocean model
-    // oceanModel.addBoat(boat);
+    const categories = [
+      {
+        label: 'self-worth',
+        value: 'self-worth',
+        colorClass: 'dark-blue'
+      },
+      {
+        label: 'family',
+        value: 'family',
+        colorClass: 'mid-blue'
+      },
+      {
+        label: 'friends',
+        value: 'friends',
+        colorClass: 'light-blue'
+      },
+      {
+        label: 'health',
+        value: 'health',
+        colorClass: 'green'
+      },
+      {
+        label: 'education',
+        value: 'education',
+        colorClass: 'light-green'
+      },
+      {
+        label: 'career',
+        value: 'career',
+        colorClass: 'yellow'
+      },
+      {
+        label: 'bucket list',
+        value: 'bucketList',
+        colorClass: 'orange'
+      },
+      {
+        label: 'financial',
+        value: 'financial',
+        colorClass: 'dark-pink'
+      },
+      {
+        label: 'love',
+        value: 'love',
+        colorClass: 'pink'
+      },
+      {
+        label: 'other',
+        value: 'other',
+        colorClass: 'purple'
+      }
+    ]
+    for (const i in categories) {
+      const category = categories[i]
+      const boat = new Boat({
+        id: randomID(),
+        message: `${category.label}`,
+        author: 'Author 1',
+        category: category.label
+      });
+      // run the internal method of the ocean model
+      oceanModel.addBoat(boat);
+    }
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
@@ -94,19 +150,19 @@ const Discover = () => {
   const clearHover = _.throttle(() => {
     const hoveringBoat = _.find(boats, boat => boat.id === currentFlag.id)
     // console.log('clearHover', { currentFlag, boats, hoveringBoat, isEmptyHoveringBoat: !_.isEmpty(hoveringBoat) })
-    if (!_.isEmpty(hoveringBoat)) {
-      anime({
-        targets: '.boat-flag',
-        opacity: 0,
-        width: 0,
-        duration: 1000,
-        easing: 'easeInOutQuad',
-        complete: () => {
-          currentFlag = {}
-          setState({ _t: Date.now() })
-        }
-      })
-    }
+    // if (!_.isEmpty(hoveringBoat)) {
+    //   anime({
+    //     targets: '.boat-flag',
+    //     opacity: 0,
+    //     width: 0,
+    //     duration: 1000,
+    //     easing: 'easeInOutQuad',
+    //     complete: () => {
+    //       currentFlag = {}
+    //       setState({ _t: Date.now() })
+    //     }
+    //   })
+    // }
   }, 2500);
   const hoverBoat = _.throttle(({ id, position }) => {
     // console.log('hoverBoat', { id, position })
@@ -169,7 +225,7 @@ const Discover = () => {
               <h4>search for regrets</h4>
             </div>
           </div>
-          {showFlag() && <BoatFlag content={getHoveringBoat()} position={currentFlag.position || {}} />}
+          {showFlag() && <BoatFlag boat={getHoveringBoat()} position={currentFlag.position || {}} />}
           <div className="confess-paper-container">
             {showConfessPaper && <ConfessPaper onSubmit={handleSubmitRegret} onClose={handleCloseConfessPaper} />}
           </div>
