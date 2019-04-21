@@ -12,7 +12,7 @@ const { UserContext } = userContext
 
 const numberOfWhiteSpace = 11
 
-export default ({ onSubmit = () => null, onClose = () => null }) => {
+export default ({ mode = "edit", onSubmit = () => null, onClose = () => null }) => {
 
   const { getUserDisplayName } = useContext(UserContext)
 
@@ -61,7 +61,7 @@ export default ({ onSubmit = () => null, onClose = () => null }) => {
   }
 
   return (
-    <div className="confess-paper">
+    <div className={`confess-paper ${mode}`}>
       <button className="close-button" onClick={onClose}>
         <i className="fas fa-times" />
       </button>

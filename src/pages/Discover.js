@@ -206,7 +206,6 @@ const Discover = () => {
           <div className="confess-paper-container">
             {showConfessPaper && (
               <ConfessPaper
-
                 onSubmit={handleSubmitRegret}
                 onClose={handleCloseConfessPaper}
               />
