@@ -42,6 +42,7 @@ const Discover = () => {
   useEffect(() => {
 
     const generateDemoBoats = async () => {
+      const boats = [];
       for (const i in appCategories) {
         console.log('Start Import Boat')
         const category = appCategories[i]
@@ -52,10 +53,11 @@ const Discover = () => {
           category: category.value,
           color: getCategoryColorCode(category.value)
         });
-        // run the internal method of the ocean model
-        oceanModel.addBoat(boat);
-        await sleep(0.2)
+        // await sleep(0.2)
+        boats.push(boat);
       }
+
+      oceanModel.addBoats(boats);
     }
 
     // // the root model, all of the boats will be it's children
@@ -69,14 +71,11 @@ const Discover = () => {
       container: "ocean"
     });
 
-    // an example of using Observer
-    // TODO transform event names into constants
-    oceanModel.addObserver("BoatModelAdded", e => {
-      console.log("BoatModelAdded");
-      // addBoat()
-      boats = _.assign({}, boats, {
-        [e.boat.id]: e.boat
-      });
+    oceanModel.addObserver("BoatsAdded", e => {
+      boats = _.assign({}, boats, e.boats);
+    });
+    oceanModel.addObserver("SingleBoatAdded", e => {
+      boats = _.assign({}, boats, [e.boat]);
     });
 
     oceanController.addObserver("BoatHover", data => hoverBoat(data)); // eslint-disable-line
@@ -85,9 +84,7 @@ const Discover = () => {
       handleEditBoat(e)
     });
     oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
-    // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
-    //sample boat. Further communication with boats will occur via ID
     generateDemoBoats()
   }, []);
 
@@ -100,17 +97,17 @@ const Discover = () => {
 
   const handleAddBoat = data => {
     console.log('handleAddBoat', data)
-    // sample boat. Further communication with boats will occur via ID
     const boat = new Boat({
       id: randomID(),
       category: data.category,
       message: data.message,
       author: data.author,
-      color: getCategoryColorCode(data.category)
+      color: getCategoryColorCode(data.category),
+      new: true
     })
     oceanModel.addBoat(boat)
-    // this.isCreateMode = false;
   };
+
   const handleEditBoat = ({ id }) => {
     const targetBoat = _.find(boats, boat => boat.id === id)
     console.log('handleEditBoat', { id, targetBoat, author })
@@ -120,6 +117,22 @@ const Discover = () => {
     } else {
       alert('Can edit only your own boat.')
     }
+  };
+
+  const handleUpdateBoat = boatModel => {
+    // for example
+    const randomCat = appCategories[Math.floor(Math.random() * appCategories.length)];
+
+    boatModel = _.assign({}, boatModel, {
+      category: randomCat,
+      color: getCategoryColorCode(randomCat.value)
+    });
+    
+    oceanModel.updateBoat(boatModel);
+  };
+
+  const handleRemoveBoat = boatModel => {
+    oceanModel.removeBoat(boatModel);
   };
 
   const clearHover = _.throttle(() => {
@@ -182,7 +195,7 @@ const Discover = () => {
     })
   }
 
-  console.log('@Render', { user: getUserDisplayName(), currentFlag, hoveringBoat: getHoveringBoat(), editingBoat })
+  // console.log('@Render', { user: getUserDisplayName(), currentFlag, hoveringBoat: getHoveringBoat(), editingBoat })
 
   author = getUserDisplayName()
 

@@ -53,7 +53,7 @@ const UserProvider = ({ children }) => {
   }
 
   const getUserDisplayName = () => {
-    console.log('getUserDisplayName', user)
+    // console.log('getUserDisplayName', user)
     return _.get(user, 'display_name', '')
   }
 

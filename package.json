@@ -16,6 +16,7 @@
     "react-router-dom": "^5.0.0",
     "three": "^0.103.0",
     "three-full": "^17.1.0",
+    "three-instanced-mesh": "^0.96.2",
     "three-obj-mtl-loader": "^1.0.3"
   },
   "devDependencies": {
