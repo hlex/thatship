@@ -1,8 +1,6 @@
 // import * as THREE from "three";
 import * as THREE from "three-full";
-import { TweenMax, Power4 } from "gsap";
-
-import MediatorFactory from "../MediatorFactory";
+import OceanMediator from "./mediator/OceanMediator";
 import ObjectPicker from "../view/ObjectPicker";
 
 export default class Renderer {
@@ -13,8 +11,9 @@ export default class Renderer {
     this.ctx = this.createRenderingContext();
 
     // ocean mediator, the way to update components
-    this.rootMediator = MediatorFactory.getMediator(model);
+    this.rootMediator = new OceanMediator(model, this.ctx);
     this.objectPicker = new ObjectPicker(this.rootMediator, this.ctx);
+
   }
 
   createRenderingContext() {
@@ -38,14 +37,8 @@ export default class Renderer {
     controls.maxDistance = camera.far / 2;
     controls.maxPolarAngle = Math.PI / 2.3;
 
-    // camera.position.set(150, 0, 300);
-    camera.position.set(75, 50, 50);
-
-    // const helper = new THREE.GridHelper( 10000,10 );
-    // scene.add(helper);
-    // const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-    // const helper = new THREE.PlaneHelper( plane, 100, 0xffff00 );
-    // scene.add( helper );
+    camera.position.set(150, 0, 300);
+    // camera.position.set(75, 50, 50);
 
     renderer.setSize(width, height);
     renderer.localClippingEnabled = true;
@@ -78,26 +71,6 @@ export default class Renderer {
     );
 
     window.addEventListener("resize", () => this.onWindowResize(), false);
-
-    this.rootMediator.addObserver("BoatAddedToOcean", e => {
-
-      console.log('BoatAddedToOcean', e)
-
-      const newPos = e.object3D.position;
-
-      this.objectPicker.addTarget(e.object3D);
-
-      TweenMax.to(this.ctx.controls.target, 1.5, {
-        x: newPos.x,
-        y: newPos.y,
-        z: newPos.z,
-        ease: Power4.easeInOut,
-        onUpdate: () => {
-          this.ctx.camera.updateProjectionMatrix();
-          this.ctx.camera.lookAt(newPos);
-        }
-      });
-    });
 
     this.render();
 
@@ -134,15 +107,13 @@ export default class Renderer {
 
   render() {
     // only required if controls.enableDamping = true, or if controls.autoRotate = true
-    // this.ctx.controls.update();
+    this.ctx.controls.update();
 
     requestAnimationFrame(() => this.render());
 
-    // update components
-    this.rootMediator.onAfterRender();
-
-    // this.ctx.renderer.setRenderTarget(this.ctx.scene, this.ctx.camera)
+    this.ctx.renderer.setRenderTarget(null);
     this.ctx.renderer.render(this.ctx.scene, this.ctx.camera);
+    this.rootMediator.onAfterRender();
   }
 
   onWindowResize() {

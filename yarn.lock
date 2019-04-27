@@ -9894,6 +9894,11 @@ three-full@^17.1.0:
   resolved "https://registry.yarnpkg.com/three-full/-/three-full-17.1.0.tgz#ecab0ff39c76c94530cda50d40fb9d66b2141701"
   integrity sha512-rVZczsQvi3FT7dgbnanwGP0TRXT0DZd25SYqqsc26PJpmAaEb09I/hAWp+i1lI2GzbT0tM/4kSWlkVgj4XycPw==
 
+three-instanced-mesh@^0.96.2:
+  version "0.96.2"
+  resolved "https://registry.yarnpkg.com/three-instanced-mesh/-/three-instanced-mesh-0.96.2.tgz#a8af5d678cf670ddfe1e63b9e1e8bc7dca6a01d4"
+  integrity sha512-cnpvYpBbwv4LdbuQjgzFtlA70lZy6+p78YI+vaQLJYBEMhd0qNOf3VMC+YVLD0JzHZCPbnPvjvzeF7lvcU5D+Q==
+
 three-obj-mtl-loader@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/three-obj-mtl-loader/-/three-obj-mtl-loader-1.0.3.tgz#2901efd5b77cce29b61733c63f196432ee653667"
