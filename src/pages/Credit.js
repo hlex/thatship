@@ -3,13 +3,17 @@ import { Link } from "react-router-dom";
 
 import { MainContent, Paper, Title, Ocean } from "../components";
 
+import iconMinnie from '../images/mn_logo.png'
+import iconChula from '../images/chula.jpg'
+import iconIdChula from '../images/idchula.png'
+
 const Credit = ({ history }) => {
   const handleGoToMenu = () => {
     history.push("/menu");
   };
 
   return (
-    <div className="login-page">
+    <div className="credit-page">
       <div className="container">
         <MainContent>
           <div className="announcement">
@@ -21,14 +25,22 @@ const Credit = ({ history }) => {
                 </Title>
               }
               renderBody={
-                <p className="_text-justify _bold">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  eget congue purus lorem vitae diam. Morbi in purus sit amet
-                  erat blandit finibus. Orci varius natoque penatibus et
-                  magnis dis parturient montes, nascetur ridiculus mus. Nam
-                  varius orci accumsan imperdiet cursus. Quisque congue arcu
-                  hendrerit suscipit tincidunt. Aliquam vel erat eget
-                </p>
+                <div className="content-container">
+                  <div className="organizer">
+                    <img src={iconMinnie} alt="" />
+                    <img id="image-chula" src={iconChula} alt="" />
+                    <img src={iconIdChula} alt="" />
+                  </div>
+                  <p className="_bold">
+                    This website is <div className="underline">Minnie</div>'s senior project for her bachelor degree at <div className="underline">Chulalongkorn university</div>'s <div className="underline">industrial design</div> program.
+                  </p>
+                  <div className="credit-contact">
+                    <h4>Contact:</h4>
+                    <p>Minnie Chantpakpimon</p>
+                    <p>email: chantchanokch@gmail.com</p>
+                    <p>website: <a href="https://minniechantpakpimon.firebaseapp.com/" target="_blank">minniecc.com</a></p>
+                  </div>
+                </div>
               }
             />
           </div>

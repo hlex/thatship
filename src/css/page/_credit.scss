@@ -1,4 +1,46 @@
-.announcement {
-  position: relative;
-  z-index: 1;
+.credit-page {
+  .content-container {
+
+  }
+  .announcement {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.credit-page .content-container {
+  .underline {
+    position: relative;
+    display: inline-block;
+    border-bottom: 2px solid #000;
+  }
+  .organizer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .organizer > img {
+    width: 100%;
+    height: auto;
+    max-width: 120px;
+    display: block;
+  }
+  #image-chula {
+    max-width: 220px;
+  }
+}
+
+.credit-page .content-container .credit-contact {
+  margin-top: 30px;
+  font-weight: 700;
+  h4 {
+    margin: 10px 0;
+  }
+  p {
+    margin: 2px 0;
+  }
+  a {
+    text-decoration: underline;
+  }
 }
