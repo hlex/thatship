@@ -27,8 +27,6 @@ const Credit = ({ history }) => {
                   <h3 className="_bold">Article 1 - Legal Information</h3>
                   <p>'That Ship Has Sailed' site is the property of Chantchanok Chantpakpimon, whose registered office is located at:</p>
                   <p>
-                    Tel: +66 8 3 299 2999
-                    <br />
                     E-mail: chantchanokch@gmail.com
                   </p>
                   <p>‘The Ship Has Sailed’ This idea encapsulates the lost opportunity - a
