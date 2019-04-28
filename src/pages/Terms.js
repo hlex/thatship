@@ -9,7 +9,7 @@ const Credit = ({ history }) => {
   };
 
   return (
-    <div className="login-page">
+    <div className="terms-page">
       <div className="container">
         <MainContent>
           <div className="announcement">
@@ -126,8 +126,8 @@ const Credit = ({ history }) => {
                   <h3 className="_bold">Article 6 - Contents of the site</h3>
                   <p>The 'That Ship Has Sailed' Site is accessible free of charge to any person having internet access (computer and/or mobile phone). All the costs related to access to the Site, whether these are costs for materials, software or internet access, are exclusively at the expense of the internet user. He is the sole party responsible for the proper functioning of his computer equipment and Internet access.</p>
                   <p>To benefit from the Services, the internet user must also have a valid Facebook account, either directly or through a service provider or a service provider having access to the Internet. </p>
-                  <ul>
-                    <p>The User, who accesses the Service, declares that he accepts the characteristics and limits of the internet and, in particular, he acknowledges that:</p>
+                  <p>The User, who accesses the Service, declares that he accepts the characteristics and limits of the internet and, in particular, he acknowledges that:</p>
+                  <ul className="list-style-type-dash">
                     <li>He is aware of the nature of the Internet network and, in particular, its technical performance and response times to consult, examine or transfer data and information.</li>
                     <li>Data transmitted on the Internet is not necessarily protected, in particular against any fraudulent use.</li>
                     <li>The communication to a third party of his identifying data and, in a general manner, of any information considered confidential, is made at his own risk and peril.</li>
@@ -137,8 +137,8 @@ const Credit = ({ history }) => {
                   <br />
 
                   <h3 className="_bold">Article 7 - Technical information</h3>
+                  <p>As a user of the 'That Ship Has Sailed' site, you acknowledge that you: have the necessary skills and means to access and use this site: Browsers:</p>
                   <ul>
-                    <p>As a user of the 'That Ship Has Sailed' site, you acknowledge that you: have the necessary skills and means to access and use this site: Browsers:</p>
                     <li>Microsoft Internet Explorer 11</li>
                     <li>Certain versions of Mozilla Firefox</li>
                     <li>Chrome version 20 and higher</li>
