@@ -167,9 +167,10 @@ const Discover = ({ history }) => {
       return ''
     }
 
+    const boatId = randomID()
     const author = isAnonymous ? 'Anonymous' : getUserDisplayName()
     const confessMessage = {
-      id: randomID(),
+      id: boatId,
       category,
       message: `I regret ${message}`,
       author
@@ -177,10 +178,11 @@ const Discover = ({ history }) => {
     handleCloseConfessPaper()
     handleAddBoat(confessMessage)
 
-    // save boat to user profile in firestore
-    // await firebase.db.collection('users').doc(getUserEmail()).update({
-    //   messages: firebase.firestore.FieldValue.arrayUnion(confessMessage)
-    // })
+    // save boats to user profile in firestore
+    await firebase.db.collection('boats').doc(boatId).set(confessMessage)
+    await firebase.db.collection('users').doc(getUserEmail()).update({
+      boats: firebase.firestore.FieldValue.arrayUnion(boatId)
+    })
   }
 
   const handleOpenConfessPaper = () => {
