@@ -21,7 +21,7 @@ const BoatFlag = ({ show = false, boat = {}, position }) => {
   const { author = '', message = '', category = '' } = boat
   const top = getTop(position);
   const left = getLeft(position);
-  const text = `"${message}"`;
+  const text = `"I regret ${message}"`;
 
   useEffect(() => {
     anime({

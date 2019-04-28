@@ -11,5 +11,14 @@ export default class Boat extends Observer {
     this.category = data.category;
     this.color = data.color;
     this.className = "Boat";
+    this.new = data.new;
+  }
+
+  update(data) {
+    Object.assign(this, data);
+
+    if (data.category && data.color) {
+      this.emit("UpdateCategory", { color: data.color });
+    }
   }
 }

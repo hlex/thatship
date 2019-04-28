@@ -4,3 +4,9 @@ a {
     color: inherit;
   }
 }
+
+button {
+  &:focus, &:visited {
+    outline: none;
+  }
+}

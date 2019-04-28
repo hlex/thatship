@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import iconFB from '../images/icon_fb.png'
 import iconTwitter from '../images/icon_twitter.png'
+import iconLogout from '../images/logout.png'
 
 const Footer = () => {
   return (
@@ -15,6 +16,7 @@ const Footer = () => {
         <Link to="/credit"><p>Credit</p></Link>
         <Link to="/terms"><p>Term & Condition</p></Link>
       </div>
+      <button className="button-logout"><img src={iconLogout} alt="" /></button>
     </div>
   )
 }

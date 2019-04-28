@@ -34,13 +34,17 @@ export default class Controller extends Observer {
 
   // DOM operations
   onClick(object) {
-    this.emit("BoatSelect", { id: object.userData.mediator.model.id });
+    if(object) {
+      this.emit("BoatSelect", {
+        id: object.userData.modelRef
+      });
+    }
   }
 
   onMouseMove(object) {
     if (object) {
       this.emit("BoatHover", {
-        id: object.userData.mediator.model.id,
+        id: object.userData.modelRef,
         position: this.view.worldToScreen({
           point3d: object.position,
           cssFormat: true,

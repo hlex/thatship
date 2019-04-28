@@ -1,15 +1,18 @@
 import React from 'react'
 
-import { MainContent } from '../components'
+import boat2 from '../images/boat2.png'
 
-import boat from '../images/boat.png'
-
-const Home = () => {
+const NotFound = ({ history }) => {
+  const handleClickBoat = () => {
+    console.log('handleClickBoat', history)
+    history.push('/menu')
+  }
   return (
     <div className="notfound-page">
       404 Page Not Found.
+      <img onClick={handleClickBoat} src={boat2} alt="" />
     </div>
   )
 }
 
-export default Home
+export default NotFound

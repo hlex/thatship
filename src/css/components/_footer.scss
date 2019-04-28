@@ -23,4 +23,16 @@
   .link-list > a > p {
     font-weight: 700;
   }
+  .button-logout {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .button-logout > img {
+    max-width: 20px;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 }

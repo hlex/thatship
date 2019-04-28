@@ -19,18 +19,27 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(initialUser);
 
   useEffect(() => {
-    if (!verifiedUser) {
-      firebase.auth().onAuthStateChanged((result) => {
-        if (result) {
-          const localStorageUser = localStorage.getItem('localStorageUser')
-          if (localStorageUser) {
-            setUser(JSON.parse(localStorageUser))
-          }
-        }
-        setVerifyUser(true)
-      });
-    }
-  })
+    firebase.auth().onAuthStateChanged(async (result) => {
+      console.log('onAuthStateChanged', { result })
+      if (!_.isEmpty(result)) {
+
+        // query user from db
+        const userId = result.email
+        const doc = await firebase.db.collection('users').doc(userId).get()
+        const userInFireStore = doc.data()
+        console.log('userInFireStore', userInFireStore)
+        setUser(userInFireStore)
+
+        // const localStorageUser = localStorage.getItem('localStorageUser')
+        // // console.log('onAuthStateChanged:localStorageUser', localStorageUser)
+        // if (!_.isEmpty(localStorageUser)) {
+        //   const userToSet = JSON.parse(localStorageUser)
+        //   // console.log('onAuthStateChanged:userToSet', userToSet)
+        //   setUser(userToSet)
+        // }
+      }
+    });
+  }, [])
 
   const isLoggedIn = user.uid !== '' && user.isAnonymous === false
 
@@ -48,9 +57,23 @@ const UserProvider = ({ children }) => {
     setUser({})
   }
 
-  const getUserDisplayName = () => _.get(user, 'display_name', '')
+  const getUserDisplayName = () => {
+    // console.log('getUserDisplayName', user)
+    return _.get(user, 'display_name', '')
+  }
 
-  return <Provider value={{ user, userLogin, userLogout, isLoggedIn, getUserDisplayName }}>{children}</Provider>;
+  const getUserEmail = () => _.get(user, 'email', '')
+
+  const props = {
+    user,
+    userLogin,
+    userLogout,
+    isLoggedIn,
+    getUserEmail,
+    getUserDisplayName
+  }
+
+  return <Provider value={props}>{children}</Provider>;
 };
 
 export default {

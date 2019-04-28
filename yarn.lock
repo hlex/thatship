@@ -2460,6 +2460,11 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classnames@^2.2.5:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
+
 clean-css@4.2.x:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.2.1.tgz#2d411ef76b8569b6d0c84068dabe85b0aa5e5c17"
@@ -8299,7 +8304,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.6.2:
+prop-types@^15.6.0, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8625,6 +8630,14 @@ react-scripts@2.1.8:
     workbox-webpack-plugin "3.6.3"
   optionalDependencies:
     fsevents "1.2.4"
+
+react-tooltip@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.10.0.tgz#268b5ef519fd8a1369288d1f086f42c90d5da7ef"
+  integrity sha512-GGdxJvM1zSFztkTP7gCQbLTstWr1OOoMpJ5WZUGhimj0nhRY+MPz+92MpEnKmj0cftJ9Pd/M6FfSl0sfzmZWkg==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
 
 react@^16.8.5:
   version "16.8.5"
@@ -9880,6 +9893,11 @@ three-full@^17.1.0:
   version "17.1.0"
   resolved "https://registry.yarnpkg.com/three-full/-/three-full-17.1.0.tgz#ecab0ff39c76c94530cda50d40fb9d66b2141701"
   integrity sha512-rVZczsQvi3FT7dgbnanwGP0TRXT0DZd25SYqqsc26PJpmAaEb09I/hAWp+i1lI2GzbT0tM/4kSWlkVgj4XycPw==
+
+three-instanced-mesh@^0.96.2:
+  version "0.96.2"
+  resolved "https://registry.yarnpkg.com/three-instanced-mesh/-/three-instanced-mesh-0.96.2.tgz#a8af5d678cf670ddfe1e63b9e1e8bc7dca6a01d4"
+  integrity sha512-cnpvYpBbwv4LdbuQjgzFtlA70lZy6+p78YI+vaQLJYBEMhd0qNOf3VMC+YVLD0JzHZCPbnPvjvzeF7lvcU5D+Q==
 
 three-obj-mtl-loader@^1.0.3:
   version "1.0.3"

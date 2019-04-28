@@ -15,14 +15,18 @@ import { randomID } from "../webgl/utils";
 
 import { appCategories, getCategoryColorCode } from '../utils'
 
-import { userContext } from '../lib'
+import { userContext, firebase, storeContext } from '../lib'
 import { resolve } from "uri-js";
 
 const { UserContext } = userContext
+const { StoreContext } = storeContext
+
 
 let oceanModel
 let currentFlag = {}
+let editingBoat = {}
 let boats = {}
+let author = ""
 
 const sleep = (second) => {
   return new Promise((resolve, reject) => {
@@ -32,16 +36,33 @@ const sleep = (second) => {
   })
 }
 
-const Discover = () => {
+const Discover = ({ history }) => {
   const [state, setState] = useState({})
-  const { getUserDisplayName } = useContext(UserContext)
+  const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext)
+  const { store } = useContext(StoreContext)
 
-  let ocean = <div />
-  useEffect(async () => {
+  console.debug('@Discover', { store, boats, size: _.size(_.keys(boats)) })
+
+  useEffect(() => {
+    const generateDemoBoats = async () => {
+      const boats = [];
+      for (const i in appCategories) {
+        const category = appCategories[i]
+        const boat = new Boat({
+          id: randomID(),
+          message: `${category.label}`,
+          author: 'Anonymous',
+          category: category.value,
+          color: getCategoryColorCode(category.value)
+        });
+        // await sleep(0.2)
+        boats.push(boat);
+      }
+      oceanModel.addBoats(boats);
+    }
+
     // // the root model, all of the boats will be it's children
-    // // oceanModel = new Ocean();
-    ocean = new Ocean();
-    oceanModel = ocean
+    oceanModel = new Ocean();
 
     // renderer initialization will happen within the controller
     const oceanController = new Controller({
@@ -49,65 +70,86 @@ const Discover = () => {
       container: "ocean"
     });
 
-    // an example of using Observer
-    // TODO transform event names into constants
-    oceanModel.addObserver("BoatModelAdded", e => {
-      console.log("BoatModelAdded");
-      // addBoat()
-      boats = _.assign({}, boats, {
-        [e.boat.id]: e.boat
-      });
+    oceanModel.addObserver("BoatsAdded", e => {
+      boats = _.assign({}, boats, e.boats);
+    });
+    oceanModel.addObserver("SingleBoatAdded", e => {
+      boats = _.assign({}, boats, [e.boat]);
     });
 
     oceanController.addObserver("BoatHover", data => hoverBoat(data)); // eslint-disable-line
     oceanController.addObserver("BoatSelect", e => { // eslint-disable-line
       console.log('BoatSelect', e)
-      // this.selectedId = e.id;
-      // this.isEditMode = true;
+      handleEditBoat(e)
     });
     oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
-    // oceanController.addObserver('UpdateFlagPosition', position => this.hovered.position = position);
 
-    //sample boat. Further communication with boats will occur via ID
-    for (const i in appCategories) {
-      console.log('Start Import Boat')
-      const category = appCategories[i]
-      const boat = new Boat({
-        id: randomID(),
-        message: `${category.label}`,
-        author: 'Author 1',
-        category: category.label,
-        color: getCategoryColorCode(category.value)
-      });
-      // run the internal method of the ocean model
-      oceanModel.addBoat(boat);
-      await sleep(0.1)
-    }
+    // generateDemoBoats()
   }, []);
+
+  useEffect(() => {
+    const { boats: existingBoats } = store
+    console.log('existingBoats', existingBoats)
+    const boatsToLoad = []
+    _.forEach(existingBoats, (existingBoat, boatId) => {
+      const boat = new Boat({
+        id: boatId,
+        message: existingBoat.message,
+        author: existingBoat.author,
+        category: existingBoat.category,
+        color: getCategoryColorCode(existingBoat.category)
+      });
+      boatsToLoad.push(boat)
+    })
+    oceanModel.addBoats(boatsToLoad);
+  }, [store.boats])
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
   const getHoveringBoat = () => _.find(boats, boat => boat.id === currentFlag.id)
 
+  const render = () => {
+    setState({ _t: Date.now() })
+  }
+
   const handleAddBoat = data => {
     console.log('handleAddBoat', data)
-    // sample boat. Further communication with boats will occur via ID
     const boat = new Boat({
       id: randomID(),
       category: data.category,
       message: data.message,
       author: data.author,
-      color: getCategoryColorCode(data.category)
+      color: getCategoryColorCode(data.category),
+      new: true
     })
+    console.log('handleAddBoat', boat)
     oceanModel.addBoat(boat)
-    // this.isCreateMode = false;
   };
-  const editBoat = data => {
-    // this.boats[this.selectedId] = Object.assign(
-    //   this.boats[this.selectedId],
-    //   data
-    // );
-    // this.isEditMode = false;
-    // this.selectedId = null;
+
+  const handleEditBoat = ({ id }) => {
+    const targetBoat = _.find(boats, boat => boat.id === id)
+    console.log('handleEditBoat', { id, targetBoat, author })
+    if (targetBoat.author === author) {
+      editingBoat.id = id
+      render()
+    } else {
+      alert('Can edit only your own boat.')
+    }
+  };
+
+  const handleUpdateBoat = boatModel => {
+    // for example
+    const randomCat = appCategories[Math.floor(Math.random() * appCategories.length)];
+
+    boatModel = _.assign({}, boatModel, {
+      category: randomCat,
+      color: getCategoryColorCode(randomCat.value)
+    });
+
+    oceanModel.updateBoat(boatModel);
+  };
+
+  const handleRemoveBoat = boatModel => {
+    oceanModel.removeBoat(boatModel);
   };
 
   const clearHover = _.throttle(() => {
@@ -122,7 +164,7 @@ const Discover = () => {
         easing: 'easeInOutQuad',
         complete: () => {
           currentFlag = {}
-          setState({ _t: Date.now() })
+          render()
         }
       })
     }
@@ -134,26 +176,44 @@ const Discover = () => {
         id,
         position
       }
-      setState({ _t: Date.now() })
+      render()
     }
   }, 500);
 
-  const handleSubmitRegret = ({ message, category, isAnonymous }) => {
+  const handleSubmitRegret = async ({ message, category, isAnonymous }) => {
+    const userEmail = getUserEmail()
+    if (_.isEmpty(userEmail)) {
+      console.log('Cannot submit regret because email is empty', userEmail)
+      return ''
+    }
+
+    const boatId = randomID()
     const author = isAnonymous ? 'Anonymous' : getUserDisplayName()
     const confessMessage = {
-      id: randomID(),
+      id: boatId,
       category,
-      message: `I regret ${message}`,
-      author
+      message,
+      author,
+      userId: userEmail
     }
     handleCloseConfessPaper()
     handleAddBoat(confessMessage)
+
+    // save boats to user profile in firestore
+    await firebase.db.collection('boats').doc(boatId).set(confessMessage)
+    await firebase.db.collection('users').doc(getUserEmail()).update({
+      boats: firebase.firestore.FieldValue.arrayUnion(boatId)
+    })
   }
 
   const handleOpenConfessPaper = () => {
-    setState({
-      showConfessPaper: true
-    })
+    if (isLoggedIn) {
+      setState({
+        showConfessPaper: true
+      })
+    } else {
+      history.push('/login')
+    }
   }
   const handleCloseConfessPaper = () => {
     anime({
@@ -170,7 +230,9 @@ const Discover = () => {
     })
   }
 
-  console.log('@Render', currentFlag, getHoveringBoat())
+  // console.log('@Render', { user: getUserDisplayName(), currentFlag, hoveringBoat: getHoveringBoat(), editingBoat })
+
+  author = getUserDisplayName()
 
   const { showConfessPaper } = state
 
@@ -188,9 +250,19 @@ const Discover = () => {
               <h4>search for regrets</h4>
             </div>
           </div>
-          {showFlag() && <BoatFlag boat={getHoveringBoat()} position={currentFlag.position || {}} />}
+          {showFlag() && (
+            <BoatFlag
+              boat={getHoveringBoat()}
+              position={currentFlag.position || {}}
+            />
+          )}
           <div className="confess-paper-container">
-            {showConfessPaper && <ConfessPaper onSubmit={handleSubmitRegret} onClose={handleCloseConfessPaper} />}
+            {showConfessPaper && (
+              <ConfessPaper
+                onSubmit={handleSubmitRegret}
+                onClose={handleCloseConfessPaper}
+              />
+            )}
           </div>
           <div id="ocean" />
         </MainContent>

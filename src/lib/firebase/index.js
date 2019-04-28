@@ -18,6 +18,11 @@ const config = {
   storageBucket: REACT_APP_STORAGE_BUCKET,
   messagingSenderId: REACT_APP_MESSAGING_SENDER_ID
 }
+
 firebase.initializeApp(config)
+
+const db = firebase.firestore();
+
+firebase.db = db
 
 export default firebase
