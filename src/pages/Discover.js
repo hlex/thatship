@@ -58,7 +58,6 @@ const Discover = ({ history }) => {
           category: category.value,
           color: getCategoryColorCode(category.value)
         });
-        // await sleep(0.2)
         boats.push(boat);
       }
       oceanModel.addBoats(boats);
@@ -92,7 +91,6 @@ const Discover = ({ history }) => {
 
   useEffect(() => {
     const { boats: existingBoats } = store
-    console.log('existingBoats', existingBoats)
     const boatsToLoad = []
     _.forEach(existingBoats, (existingBoat, boatId) => {
       const boat = new Boat({
@@ -203,13 +201,33 @@ const Discover = ({ history }) => {
       userId: userEmail
     }
     handleCloseConfessPaper()
-    handleAddBoat(confessMessage)
 
-    // save boats to user profile in firestore
-    await firebase.db.collection('boats').doc(boatId).set(confessMessage)
-    await firebase.db.collection('users').doc(getUserEmail()).update({
-      boats: firebase.firestore.FieldValue.arrayUnion(boatId)
+    // show animation
+    anime({
+      targets: '.thankyou-popup',
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'easeInOutQuad',
+        complete: () => {
+          anime({
+            targets: '.thankyou-popup',
+            opacity: [1, 0],
+            delay: 5000,
+            duration: 500,
+            easing: 'easeInOutQuad',
+              complete: async () => {
+                console.log('Complete !')
+                handleAddBoat(confessMessage)
+                // save boats to user profile in firestore
+                await firebase.db.collection('boats').doc(boatId).set(confessMessage)
+                await firebase.db.collection('users').doc(getUserEmail()).update({
+                  boats: firebase.firestore.FieldValue.arrayUnion(boatId)
+                })
+              }
+          })
+        }
     })
+
   }
 
   const handleOpenConfessPaper = () => {
@@ -269,6 +287,12 @@ const Discover = ({ history }) => {
                 onClose={handleCloseConfessPaper}
               />
             )}
+          </div>
+          <div className="thankyou-popup">
+            <p className="title">THANK YOU!</p>
+            <p>Take a moment with yourself to think about how you are living your life.</p>
+            <p>Life is brief, and happiness is too fragile to carry the weight of regret.</p>
+            <p>Let it sail away!</p>
           </div>
           <div id="ocean" />
         </MainContent>

@@ -22,8 +22,6 @@ const StoreProvider = ({ children }) => {
     const data = {}
     const querySnapshot = await firebase.db.collection('boats').get()
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
       data[doc.id] = doc.data()
     });
     console.log('fetchDataFromFireStore', data)
