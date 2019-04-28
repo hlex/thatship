@@ -41,7 +41,7 @@ const Discover = ({ history }) => {
   const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext)
   const { store } = useContext(StoreContext)
 
-  console.debug('@Discover', { store })
+  console.debug('@Discover', { store, boats, size: _.size(_.keys(boats)) })
 
   useEffect(() => {
     const generateDemoBoats = async () => {
@@ -84,8 +84,25 @@ const Discover = ({ history }) => {
     });
     oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
 
-    generateDemoBoats()
+    // generateDemoBoats()
   }, []);
+
+  useEffect(() => {
+    const { boats: existingBoats } = store
+    console.log('existingBoats', existingBoats)
+    const boatsToLoad = []
+    _.forEach(existingBoats, (existingBoat, boatId) => {
+      const boat = new Boat({
+        id: boatId,
+        message: existingBoat.message,
+        author: existingBoat.author,
+        category: existingBoat.category,
+        color: getCategoryColorCode(existingBoat.category)
+      });
+      boatsToLoad.push(boat)
+    })
+    oceanModel.addBoats(boatsToLoad);
+  }, [store.boats])
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
   const getHoveringBoat = () => _.find(boats, boat => boat.id === currentFlag.id)
