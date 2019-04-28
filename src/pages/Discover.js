@@ -15,7 +15,7 @@ import { randomID } from "../webgl/utils";
 
 import { appCategories, getCategoryColorCode } from '../utils'
 
-import { userContext } from '../lib'
+import { userContext, firebase } from '../lib'
 import { resolve } from "uri-js";
 
 const { UserContext } = userContext
@@ -36,7 +36,7 @@ const sleep = (second) => {
 
 const Discover = ({ history }) => {
   const [state, setState] = useState({})
-  const { getUserDisplayName, isLoggedIn } = useContext(UserContext)
+  const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext)
 
   let ocean = <div />
   useEffect(() => {
@@ -85,7 +85,7 @@ const Discover = ({ history }) => {
     });
     oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
 
-    generateDemoBoats()
+    // generateDemoBoats()
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
@@ -163,7 +163,13 @@ const Discover = ({ history }) => {
     }
   }, 500);
 
-  const handleSubmitRegret = ({ message, category, isAnonymous }) => {
+  const handleSubmitRegret = async ({ message, category, isAnonymous }) => {
+    const userEmail = getUserEmail()
+    if (_.isEmpty(userEmail)) {
+      console.log('Cannot submit regret because email is empty', userEmail)
+      return ''
+    }
+
     const author = isAnonymous ? 'Anonymous' : getUserDisplayName()
     const confessMessage = {
       id: randomID(),
@@ -173,6 +179,11 @@ const Discover = ({ history }) => {
     }
     handleCloseConfessPaper()
     handleAddBoat(confessMessage)
+
+    // save boat to user profile in firestore
+    await firebase.db.collection('users').doc(getUserEmail()).update({
+      messages: firebase.firestore.FieldValue.arrayUnion(confessMessage)
+    })
   }
 
   const handleOpenConfessPaper = () => {

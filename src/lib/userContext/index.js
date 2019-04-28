@@ -57,7 +57,18 @@ const UserProvider = ({ children }) => {
     return _.get(user, 'display_name', '')
   }
 
-  return <Provider value={{ user, userLogin, userLogout, isLoggedIn, getUserDisplayName }}>{children}</Provider>;
+  const getUserEmail = () => _.get(user, 'email', '')
+
+  const props = {
+    user,
+    userLogin,
+    userLogout,
+    isLoggedIn,
+    getUserEmail,
+    getUserDisplayName
+  }
+
+  return <Provider value={props}>{children}</Provider>;
 };
 
 export default {
