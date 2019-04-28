@@ -78,7 +78,7 @@ export default ({ mode = "edit", onSubmit = () => null, onClose = () => null }) 
       </div>
       <div className="category-container">
         <p className="title">
-          {`Underline the regrest's category`}
+          {`Underline the regret's category`}
           <span className="required">*</span>
         </p>
         <Category
