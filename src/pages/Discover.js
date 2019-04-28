@@ -34,9 +34,9 @@ const sleep = (second) => {
   })
 }
 
-const Discover = () => {
+const Discover = ({ history }) => {
   const [state, setState] = useState({})
-  const { getUserDisplayName } = useContext(UserContext)
+  const { getUserDisplayName, isLoggedIn } = useContext(UserContext)
 
   let ocean = <div />
   useEffect(() => {
@@ -127,7 +127,7 @@ const Discover = () => {
       category: randomCat,
       color: getCategoryColorCode(randomCat.value)
     });
-    
+
     oceanModel.updateBoat(boatModel);
   };
 
@@ -176,9 +176,13 @@ const Discover = () => {
   }
 
   const handleOpenConfessPaper = () => {
-    setState({
-      showConfessPaper: true
-    })
+    if (isLoggedIn) {
+      setState({
+        showConfessPaper: true
+      })
+    } else {
+      history.push('/login')
+    }
   }
   const handleCloseConfessPaper = () => {
     anime({
