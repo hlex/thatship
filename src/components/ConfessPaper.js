@@ -46,7 +46,7 @@ export default ({ mode = "edit", onSubmit = () => null, onClose = () => null }) 
       return
     }
     onSubmit({
-      message,
+      message: _.trim(message),
       category: selectedCategory,
       isAnonymous
     })

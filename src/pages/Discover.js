@@ -15,10 +15,12 @@ import { randomID } from "../webgl/utils";
 
 import { appCategories, getCategoryColorCode } from '../utils'
 
-import { userContext, firebase } from '../lib'
+import { userContext, firebase, storeContext } from '../lib'
 import { resolve } from "uri-js";
 
 const { UserContext } = userContext
+const { StoreContext } = storeContext
+
 
 let oceanModel
 let currentFlag = {}
@@ -37,9 +39,11 @@ const sleep = (second) => {
 const Discover = ({ history }) => {
   const [state, setState] = useState({})
   const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext)
+  const { store } = useContext(StoreContext)
+
+  console.debug('@Discover', { store })
 
   useEffect(() => {
-
     const generateDemoBoats = async () => {
       const boats = [];
       for (const i in appCategories) {
@@ -54,7 +58,6 @@ const Discover = ({ history }) => {
         // await sleep(0.2)
         boats.push(boat);
       }
-
       oceanModel.addBoats(boats);
     }
 
@@ -96,7 +99,7 @@ const Discover = ({ history }) => {
     const boat = new Boat({
       id: randomID(),
       category: data.category,
-      message: _.trim(data.message),
+      message: data.message,
       author: data.author,
       color: getCategoryColorCode(data.category),
       new: true
@@ -172,8 +175,9 @@ const Discover = ({ history }) => {
     const confessMessage = {
       id: boatId,
       category,
-      message: `I regret ${message}`,
-      author
+      message,
+      author,
+      userId: userEmail
     }
     handleCloseConfessPaper()
     handleAddBoat(confessMessage)
