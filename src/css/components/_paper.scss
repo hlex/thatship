@@ -11,6 +11,8 @@
   padding: 20px 50px;
   .paper-body {
     padding: 0 30px;
+    max-height: 320px;
+    overflow-y: scroll;
   }
   .paper-footer {
 

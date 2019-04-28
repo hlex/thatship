@@ -18,7 +18,7 @@
   .link-list > a {
     color: #FFF;
     text-decoration: none;
-    margin-right: 30px;
+    margin-right: 25px;
   }
   .link-list > a > p {
     font-weight: 700;
@@ -28,6 +28,7 @@
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
   }
   .button-logout > img {
     max-width: 20px;

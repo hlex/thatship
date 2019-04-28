@@ -1,4 +1,18 @@
-.announcement {
-  position: relative;
-  z-index: 1;
+.terms-page {
+  .announcement {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.terms-page .list-style-type-dash {
+  list-style-type: none;
+  > li {
+    position: relative;
+  }
+  > li:before {
+    position: absolute;
+    left: -15px;
+    content: "-";
+  }
 }

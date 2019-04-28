@@ -22,7 +22,6 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("Do you want to logout ?");
-    console.log('confirmLogout', confirmLogout)
     if (confirmLogout) userLogout()
   }
 
@@ -35,7 +34,7 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
   }
 
   const renderAvatar = () => {
-    if (isLoggedIn) return <Avatar src={user.imageProfile} onClick={handleLogout} />
+    if (isLoggedIn) return <Avatar src={user.imageProfile} onClick={handleShowAllUserBoats} />
     return (
       <Fragment>
         <Link to="/login" data-tip data-for='login'><img className="empty-avatar" src={iconMe} alt="login" /></Link>
