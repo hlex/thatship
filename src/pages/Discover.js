@@ -38,18 +38,16 @@ const Discover = ({ history }) => {
   const [state, setState] = useState({})
   const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext)
 
-  let ocean = <div />
   useEffect(() => {
 
     const generateDemoBoats = async () => {
       const boats = [];
       for (const i in appCategories) {
-        console.log('Start Import Boat')
         const category = appCategories[i]
         const boat = new Boat({
           id: randomID(),
           message: `${category.label}`,
-          author: 'Author 1',
+          author: 'Anonymous',
           category: category.value,
           color: getCategoryColorCode(category.value)
         });
@@ -61,9 +59,7 @@ const Discover = ({ history }) => {
     }
 
     // // the root model, all of the boats will be it's children
-    // // oceanModel = new Ocean();
-    ocean = new Ocean();
-    oceanModel = ocean
+    oceanModel = new Ocean();
 
     // renderer initialization will happen within the controller
     const oceanController = new Controller({
@@ -85,7 +81,7 @@ const Discover = ({ history }) => {
     });
     oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
 
-    // generateDemoBoats()
+    generateDemoBoats()
   }, []);
 
   const showFlag = () => !_.isEmpty(currentFlag.id)
@@ -100,11 +96,12 @@ const Discover = ({ history }) => {
     const boat = new Boat({
       id: randomID(),
       category: data.category,
-      message: data.message,
+      message: _.trim(data.message),
       author: data.author,
       color: getCategoryColorCode(data.category),
       new: true
     })
+    console.log('handleAddBoat', boat)
     oceanModel.addBoat(boat)
   };
 
@@ -181,9 +178,9 @@ const Discover = ({ history }) => {
     handleAddBoat(confessMessage)
 
     // save boat to user profile in firestore
-    await firebase.db.collection('users').doc(getUserEmail()).update({
-      messages: firebase.firestore.FieldValue.arrayUnion(confessMessage)
-    })
+    // await firebase.db.collection('users').doc(getUserEmail()).update({
+    //   messages: firebase.firestore.FieldValue.arrayUnion(confessMessage)
+    // })
   }
 
   const handleOpenConfessPaper = () => {
