@@ -12,7 +12,7 @@ import {
 import iconLogout from '../images/logout-01.png'
 
 const url = "https://thatship.netlify.com"
-const title = 'that ship has sailed.'
+const title = 'Confess your regret and sail it away!'
 
 const Footer = ({ userLogout }) => {
 
