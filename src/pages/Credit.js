@@ -9,7 +9,7 @@ import iconIdChula from '../images/idchula.png'
 
 const Credit = ({ history }) => {
   const handleGoToMenu = () => {
-    history.push("/menu");
+    history.goBack()
   };
 
   return (
