@@ -27,6 +27,7 @@ let currentFlag = {}
 let editingBoat = {}
 let boats = {}
 let author = ""
+let globalShowConfessPaper = false
 
 const sleep = (second) => {
   return new Promise((resolve, reject) => {
@@ -40,6 +41,8 @@ const Discover = ({ history }) => {
   const [state, setState] = useState({})
   const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext)
   const { store } = useContext(StoreContext)
+
+  const { showConfessPaper } = state
 
   console.debug('@Discover', { store, boats, size: _.size(_.keys(boats)) })
 
@@ -170,6 +173,9 @@ const Discover = ({ history }) => {
     }
   }, 2500);
   const hoverBoat = _.throttle(({ id, position }) => {
+
+    if (globalShowConfessPaper) return ''
+
     // console.log('hoverBoat', { id, position })
     if (currentFlag.id !== id) {
       currentFlag = {
@@ -211,6 +217,7 @@ const Discover = ({ history }) => {
       setState({
         showConfessPaper: true
       })
+      globalShowConfessPaper = true
     } else {
       history.push('/login')
     }
@@ -226,6 +233,7 @@ const Discover = ({ history }) => {
         setState({
           showConfessPaper: false
         })
+        globalShowConfessPaper = false
       }
     })
   }
@@ -233,8 +241,6 @@ const Discover = ({ history }) => {
   // console.log('@Render', { user: getUserDisplayName(), currentFlag, hoveringBoat: getHoveringBoat(), editingBoat })
 
   author = getUserDisplayName()
-
-  const { showConfessPaper } = state
 
   return (
     <div className="discover-page">
