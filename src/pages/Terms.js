@@ -5,7 +5,7 @@ import { MainContent, Paper, Title, Ocean } from "../components";
 
 const Credit = ({ history }) => {
   const handleGoToMenu = () => {
-    history.goBack()
+    history.push('/discover')
   };
 
   return (
