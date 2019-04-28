@@ -18,6 +18,7 @@ const Login = ({ isLoggedIn, userLogin, history }) => {
     try {
       const result = await firebase.auth().signInWithPopup(fbProvider);
       const user = result.user;
+      const userId = user.providerData[0].email
       const userData = {
         uid: user.uid,
         isAnonymous: user.isAnonymous,
@@ -27,6 +28,18 @@ const Login = ({ isLoggedIn, userLogin, history }) => {
       };
       alert('Login Successfully')
       userLogin(userData)
+
+      // check user
+      const docRef = await firebase.db.collection('users').doc(userId)
+
+      const doc = await docRef.get()
+      if (doc.exists) {
+        console.log('ExistingUser', doc.data())
+      } else {
+        const result = await firebase.db.collection('users').doc(userId).set(userData)
+        console.log('NewUser', userId, userData, result)
+      }
+
       // redirect to discover
       history.push('/discover')
     } catch (error) {
