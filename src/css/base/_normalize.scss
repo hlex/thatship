@@ -1,12 +1,20 @@
 a {
   text-decoration: none;
+  &:focus, &:visited {
+    outline: none;
+  }
   &:visited {
     color: inherit;
   }
 }
 
-button {
-  &:focus, &:visited {
-    outline: none;
+*:focus {
+  outline: none;
+}
+
+a, button {
+  transition: 0.3s linear;
+  &:active {
+    transform: scale(1.35);
   }
 }

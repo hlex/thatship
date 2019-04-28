@@ -14,7 +14,13 @@ import iconLogout from '../images/logout-01.png'
 const url = "https://thatship.netlify.com"
 const title = 'that ship has sailed.'
 
-const Footer = () => {
+const Footer = ({ userLogout }) => {
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Do you want to logout ?");
+    if (confirmLogout) userLogout()
+  }
+
   return (
     <div className="footer">
       <div className="link-list">
@@ -38,7 +44,7 @@ const Footer = () => {
         <Link to="/credit"><p>Credit</p></Link>
         <Link to="/terms"><p>Term & Condition</p></Link>
       </div>
-      <div className="button-logout"><img src={iconLogout} alt="" /></div>
+      <div className="button-logout" onClick={handleLogout}><img src={iconLogout} alt="" /></div>
     </div>
   )
 }
