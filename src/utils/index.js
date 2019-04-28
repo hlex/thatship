@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import platform from 'platform'
 
 export const appCategories = [
   {
@@ -66,3 +67,19 @@ export const appCategories = [
 export const getCategoryColorCode = (categoryValue) => {
   return _.get(_.find(appCategories, category => category.value === categoryValue), 'colorCode', '#FFF');
 }
+
+export const verifyCanRunOnThisPlatform = () => {
+  // console.log('platform', platform)
+  // const h = window.innerHeight
+  const w = window.innerWidth
+  const os = platform.os.family
+  // if (os === 'iOS' || os === 'Android' || os === 'Windows Phone' || w <= 900) {
+  if (w <= 375) {
+    // terminal app
+    // console.log('TERMINATED !', os, w)
+    return false
+  }
+  return true
+}
+
+export default {}
