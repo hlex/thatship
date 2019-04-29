@@ -10,6 +10,7 @@ import Boat from "../webgl/model/BoatModel";
 
 import iconConfess from "../images/confess.png";
 import iconSearch from "../images/search.png";
+import mouseGif from "../images/mouse.gif";
 
 import { randomID } from "../webgl/utils";
 
@@ -90,6 +91,24 @@ const Discover = ({ history }) => {
     oceanController.addObserver("ClearHover", () => clearHover()); // eslint-disable-line
 
     // generateDemoBoats()
+
+    // show mouseGif
+    anime({
+      targets: '.navigation-tips',
+      opacity: 1,
+      duration: 1000,
+      easing: "easeInOutQuad",
+      complete: () => {
+        anime({
+          targets: '.navigation-tips',
+          opacity: 0,
+          delay: 3000,
+          duration: 1000,
+          easing: "easeInOutQuad",
+        })
+      }
+    })
+
   }, []);
 
   useEffect(() => {
@@ -108,7 +127,7 @@ const Discover = ({ history }) => {
       boatsToLoad.push(boat);
       // }
     });
-    oceanModel.addBoats(boatsToLoad);
+    // oceanModel.addBoats(boatsToLoad);
   }, [store.boats]);
 
   const showFlag = () => !_.isEmpty(currentFlag.id);
@@ -397,6 +416,12 @@ const Discover = ({ history }) => {
                 onClose={handleCloseEditPaper}
               />
             )}
+          </div>
+          <div className="navigation-tips">
+            <img id="mouse-gif" src={mouseGif} alt="" />
+            <p>LEFT MOUSE: DRAG to PAN</p>
+            <p>Right MOUSE: DRAG to ROTATE</p>
+            <p>scroll: to ZOOM </p>
           </div>
           <div className="thankyou-popup">
             <p className="title">THANK YOU!</p>
