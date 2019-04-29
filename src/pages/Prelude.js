@@ -13,8 +13,8 @@ const textAnimationDuration = 300
 
 const getSceneDuration = (sceneNo) => {
   const map = {
-    0: 4000,
-    1: sceneDuration,
+    0: 5000,
+    1: 5000,
     2: sceneDuration,
     3: sceneDuration
   }
