@@ -12,11 +12,17 @@ import { verifyCanRunOnThisPlatform } from './utils'
 
 import mobileGif from './images/mobile_ship.gif'
 
+const sound = `sound_compressed.mp3?`
+
 const { UserProvider } = userContext
 const { StoreProvider } = storeContext
 
 const App = (props) => {
 
+  const { history } = props
+
+  const [audio, setAudio] = useState(new Audio()) // eslint-disable-line)
+  const [isPlayingAudio, setPlayingAudio] = useState(false)
   const [canPlay, setPlay] = useState(true)
 
   const handleResize = () => {
@@ -35,6 +41,16 @@ const App = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (history.location.pathname === '/menu' && !isPlayingAudio) {
+      // play audio
+      const audio = new Audio(sound) // eslint-disable-line
+      audio.play()
+      setAudio(audio)
+      setPlayingAudio(true)
+    }
+  }, [history.location.pathname])
+
   if (!canPlay) {
     return (
       <div className="mobile-renderer">
@@ -43,7 +59,6 @@ const App = (props) => {
     )
   }
 
-  const { history } = props
   const isDiscoverPage = history.location.pathname === '/discover'
   return (
     <StoreProvider>
