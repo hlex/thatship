@@ -41,7 +41,7 @@ const UserProvider = ({ children }) => {
     });
   }, [])
 
-  const isLoggedIn = user.uid !== '' && user.isAnonymous === false
+  const isLoggedIn = user && user.uid !== '' && user.isAnonymous === false
 
   const userLogin = (loginUser) => {
     console.log('userLogin', loginUser)

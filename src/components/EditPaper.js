@@ -14,6 +14,8 @@ const defaultMessage = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit
 
 export default ({ author = defaultAuthor, message = defaultMessage, onEdit, onDelete, onClose }) => {
 
+  console.log()
+
   useEffect(() => {
     anime({
       targets: '.edit-paper',
@@ -34,7 +36,7 @@ export default ({ author = defaultAuthor, message = defaultMessage, onEdit, onDe
         <img src={boat2} alt="" />
       </button>
       <div className="text-container">
-        <p className="message">{`"I regret to ${message}"`}</p>
+        <p className="message">{`"I regret ${message}"`}</p>
         <p className="author">{author}</p>
       </div>
       <div className="action">

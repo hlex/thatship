@@ -1,6 +1,5 @@
 .edit-paper {
   display: flex;
-  justify-content: center;
   align-items: center;
   position: relative;
   min-width: 639px;
@@ -46,6 +45,11 @@
   font-family: garidelliregular;
   padding: 0 50px;
   font-size: 36px;
+  display: flex;
+  min-height: 300px;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
   p.message {
 
   }

@@ -103,7 +103,7 @@ const Discover = ({ history }) => {
         category: existingBoat.category,
         color: getCategoryColorCode(existingBoat.category)
       });
-      if (boatId === '_gv6cwlznd') {
+      if (existingBoat.author === 'Mondit Thumniramon') {
         boatsToLoad.push(boat)
       }
     })
@@ -114,7 +114,6 @@ const Discover = ({ history }) => {
   const getHoveringBoat = () => _.find(boats, boat => boat.id === currentFlag.id)
 
   const setState = (data) => {
-    console.log('setState', { state, data, nState: { ...state, ...data } }, )
     updateState({
       ...state,
       ...data
@@ -296,8 +295,24 @@ const Discover = ({ history }) => {
 
   }
 
-  const handleDeleteConfess = () => {
+  const handleDeleteConfess = async () => {
+    const userId = getUserEmail()
+    const boatId = editingBoat.id
 
+    // remove boat from boats
+    boats = _.omit(boats, [boatId])
+
+    // remove boat from 3d
+    handleRemoveBoat(editingBoat)
+
+    await firebase.db.collection("boats").doc(boatId).delete()
+    await firebase.db.collection("users").doc(userId).update({
+      boats: firebase.firestore.FieldValue.arrayRemove(boatId)
+    })
+
+    console.log('Deleted !', editingBoat)
+
+    handleCloseEditPaper()
   }
 
   // console.log('@Render', state)
