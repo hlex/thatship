@@ -7,24 +7,30 @@ import { AppLogo, Ocean } from "../components";
 import boat from "../images/boat.png";
 
 const maxScene = 3;
-const sceneDuration = 1500
-const boatSwingSpeed = 1500
-const textAnimationDuration = 200
+const sceneDuration = 2000
+const boatSwingSpeed = 0
+const textAnimationDuration = 300
+
+const getSceneDuration = (sceneNo) => {
+  const map = {
+    0: 4000,
+    1: sceneDuration,
+    2: sceneDuration,
+    3: sceneDuration
+  }
+  return map[sceneNo]
+}
 
 const Prelude = ({ history }) => {
   const [state, setState] = useState(0);
-  // const [isBoatAnimated, setBoatAnimated] = useState(false)
 
   useEffect(() => {
-    console.log('useEffectA')
     animateBoat();
-    // setBoatAnimated(true)
   }, []);
 
   useEffect(() => {
-    console.log('useEffectB', state, maxScene)
     if (state <= maxScene) animateText()
-  })
+  }, [state])
 
 
   const manageState = () => {
@@ -36,7 +42,6 @@ const Prelude = ({ history }) => {
   };
 
   const animateText = () => {
-    console.log('animateText')
     anime({
       targets: ".text-container > p",
       opacity: [0, 1],
@@ -54,10 +59,10 @@ const Prelude = ({ history }) => {
             complete: (anim) => {
               setTimeout(() => {
                 manageState()
-              }, sceneDuration)
+              }, getSceneDuration(state))
             }
           });
-        }, sceneDuration)
+        }, getSceneDuration(state))
       }
     });
   };
@@ -65,7 +70,7 @@ const Prelude = ({ history }) => {
   const animateBoat = () => {
     anime({
       targets: "#prelude-boat",
-      translateX: [-25, 25],
+      // translateX: [-25, 25],
       direction: "alternate",
       loop: true,
       easing: "easeInOutSine",
@@ -124,7 +129,6 @@ const Prelude = ({ history }) => {
         <div className="content">
           <img id="prelude-boat" src={boat} alt="" />
           {getTexts()}
-          {/* <Ocean /> */}
         </div>
       </div>
     </div>
