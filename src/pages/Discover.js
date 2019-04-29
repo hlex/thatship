@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import _ from 'lodash'
 import anime from 'animejs'
 
-import { MainContent, BoatFlag, ConfessPaper } from "../components";
+import { MainContent, BoatFlag, ConfessPaper, EditPaper } from "../components";
 
 import Controller from "../webgl/Controller";
 import Ocean from "../webgl/model/OceanModel";
@@ -100,7 +100,7 @@ const Discover = ({ history }) => {
         category: existingBoat.category,
         color: getCategoryColorCode(existingBoat.category)
       });
-      boatsToLoad.push(boat)
+      // boatsToLoad.push(boat)
     })
     oceanModel.addBoats(boatsToLoad);
   }, [store.boats])
@@ -287,6 +287,9 @@ const Discover = ({ history }) => {
                 onClose={handleCloseConfessPaper}
               />
             )}
+          </div>
+          <div className="edit-paper-container">
+            <EditPaper />
           </div>
           <div className="thankyou-popup">
             <p className="title">THANK YOU!</p>
