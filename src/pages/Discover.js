@@ -127,7 +127,7 @@ const Discover = ({ history }) => {
       boatsToLoad.push(boat);
       // }
     });
-    // oceanModel.addBoats(boatsToLoad);
+    oceanModel.addBoats(boatsToLoad);
   }, [store.boats]);
 
   const showFlag = () => !_.isEmpty(currentFlag.id);
