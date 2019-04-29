@@ -42,7 +42,7 @@ const Footer = ({ userLogout }) => {
         </a>
         <Link to="/about"><p>About</p></Link>
         <Link to="/credit"><p>Credit</p></Link>
-        <Link to="/terms"><p>Term & Condition</p></Link>
+        <Link to="/terms"><p>Terms & Condition</p></Link>
       </div>
       <div className="button-logout" onClick={handleLogout}><img src={iconLogout} alt="" /></div>
     </div>
