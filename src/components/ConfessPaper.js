@@ -11,12 +11,13 @@ import { userContext } from '../lib'
 const { UserContext } = userContext
 
 const numberOfWhiteSpace = 11
+const initialText = _.padStart('', numberOfWhiteSpace)
 
-export default ({ mode = "edit", onSubmit = () => null, onClose = () => null }) => {
+export default ({ boatId, boat = {}, onSubmit = () => null, onClose = () => null }) => {
 
   const { getUserDisplayName } = useContext(UserContext)
 
-  const [message, setMessage] = useState(_.padStart('', numberOfWhiteSpace))
+  const [message, setMessage] = useState(initialText)
   const [selectedCategory, setCategory] = useState("");
   const [isAnonymous, setAnonymous] = useState(false)
 
@@ -28,6 +29,11 @@ export default ({ mode = "edit", onSubmit = () => null, onClose = () => null }) 
       easing: 'easeInOutQuad'
     })
   }, [])
+
+  useEffect(() => {
+    setMessage(`${initialText}${boat.message}`)
+    setCategory(boat.category)
+  },[boatId])
 
   const handleSelectCategory = value => {
     setCategory(value);
@@ -46,6 +52,7 @@ export default ({ mode = "edit", onSubmit = () => null, onClose = () => null }) 
       return
     }
     onSubmit({
+      boatId,
       message: _.trim(message),
       category: selectedCategory,
       isAnonymous
@@ -61,7 +68,7 @@ export default ({ mode = "edit", onSubmit = () => null, onClose = () => null }) 
   }
 
   return (
-    <div className={`confess-paper ${mode}`}>
+    <div className={`confess-paper`}>
       <button className="close-button" onClick={onClose}>
         <i className="fas fa-times" />
       </button>
