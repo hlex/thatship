@@ -27,7 +27,7 @@ export default ({ mode = "edit", onSubmit = () => null, onClose = () => null }) 
       duration: 300,
       easing: 'easeInOutQuad'
     })
-  })
+  }, [])
 
   const handleSelectCategory = value => {
     setCategory(value);
