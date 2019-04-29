@@ -16,7 +16,6 @@ import { randomID } from "../webgl/utils";
 import { appCategories, getCategoryColorCode } from "../utils";
 
 import { userContext, firebase, storeContext } from "../lib";
-import { resolve } from "uri-js";
 
 const { UserContext } = userContext;
 const { StoreContext } = storeContext;
@@ -105,9 +104,9 @@ const Discover = ({ history }) => {
         category: existingBoat.category,
         color: getCategoryColorCode(existingBoat.category)
       });
-      if (existingBoat.author === "Mondit Thumniramon") {
-        boatsToLoad.push(boat);
-      }
+      // if (existingBoat.author === "Mondit Thumniramon") {
+      boatsToLoad.push(boat);
+      // }
     });
     oceanModel.addBoats(boatsToLoad);
   }, [store.boats]);
@@ -143,13 +142,13 @@ const Discover = ({ history }) => {
   const handleEditBoat = ({ id }) => {
     const targetBoat = _.find(boats, boat => boat.id === id);
     console.log("handleEditBoat", { id, targetBoat, author });
-    if (targetBoat.author === author) {
-      editingBoat = targetBoat;
-      handleOpenEditPaper();
-      render();
-    } else {
-      alert("Can edit only your own boat.");
-    }
+    // if (targetBoat.author === author) {
+    editingBoat = targetBoat;
+    handleOpenEditPaper();
+    render();
+    // } else {
+    //   alert("Can edit only your own boat.");
+    // }
   };
 
   const handleUpdateBoat = boatModel => {
@@ -392,6 +391,7 @@ const Discover = ({ history }) => {
             {showEditPaper && (
               <EditPaper
                 {...editingBoat}
+                canEdit={editingBoat.author === author}
                 onEdit={handleEditConfess}
                 onDelete={handleDeleteConfess}
                 onClose={handleCloseEditPaper}

@@ -12,7 +12,7 @@ import { userContext } from '../lib'
 const defaultAuthor = 'Author'
 const defaultMessage = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab corrupti omnis rem maxime quo dolorum! Repellat, ut. Reprehenderit, enim sit'
 
-export default ({ author = defaultAuthor, message = defaultMessage, onEdit, onDelete, onClose }) => {
+export default ({ author = defaultAuthor, message = defaultMessage, canEdit, onEdit, onDelete, onClose }) => {
 
   console.log()
 
@@ -39,16 +39,19 @@ export default ({ author = defaultAuthor, message = defaultMessage, onEdit, onDe
         <p className="message">{`"I regret ${message}"`}</p>
         <p className="author">{author}</p>
       </div>
-      <div className="action">
-        <button className="button" onClick={onEdit}>
-          <img src={iconEdit} alt="" />
-          <span>Edit</span>
-        </button>
-        <button className="button" onClick={handleDelete}>
-          <img src={iconDelete} alt="" />
-          <span>Delete</span>
-        </button>
-      </div>
+      {
+        canEdit &&
+        <div className="action">
+          <button className="button" onClick={onEdit}>
+            <img src={iconEdit} alt="" />
+            <span>Edit</span>
+          </button>
+          <button className="button" onClick={handleDelete}>
+            <img src={iconDelete} alt="" />
+            <span>Delete</span>
+          </button>
+        </div>
+      }
     </div>
   );
 };
