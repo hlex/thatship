@@ -7,16 +7,15 @@ import { AppLogo, Ocean } from "../components";
 import boat from "../images/boat.png";
 
 const maxScene = 3;
-const sceneDuration = 2000
 const boatSwingSpeed = 0
 const textAnimationDuration = 300
 
 const getSceneDuration = (sceneNo) => {
   const map = {
-    0: 5000,
-    1: 5000,
-    2: sceneDuration,
-    3: sceneDuration
+    0: 9000,
+    1: 9000,
+    2: 5000,
+    3: 3000
   }
   return map[sceneNo]
 }
@@ -57,9 +56,9 @@ const Prelude = ({ history }) => {
             easing: "easeInOutSine",
             duration: textAnimationDuration,
             complete: (anim) => {
-              setTimeout(() => {
-                manageState()
-              }, getSceneDuration(state))
+              // setTimeout(() => {
+              manageState()
+              // }, getSceneDuration(state))
             }
           });
         }, getSceneDuration(state))
