@@ -28,6 +28,7 @@ let editingBoat = {}
 let boats = {}
 let author = ""
 let globalShowConfessPaper = false
+let globalShowEditPaper = false
 
 const sleep = (second) => {
   return new Promise((resolve, reject) => {
@@ -38,11 +39,12 @@ const sleep = (second) => {
 }
 
 const Discover = ({ history }) => {
-  const [state, setState] = useState({})
+  const [time, setTime] = useState(0)
+  const [state, updateState] = useState({})
   const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext)
   const { store } = useContext(StoreContext)
 
-  const { showConfessPaper } = state
+  const { showConfessPaper, showEditPaper } = state
 
   console.debug('@Discover', { store, boats, size: _.size(_.keys(boats)) })
 
@@ -92,6 +94,7 @@ const Discover = ({ history }) => {
   useEffect(() => {
     const { boats: existingBoats } = store
     const boatsToLoad = []
+    console.log('existingBoats', existingBoats)
     _.forEach(existingBoats, (existingBoat, boatId) => {
       const boat = new Boat({
         id: boatId,
@@ -100,7 +103,9 @@ const Discover = ({ history }) => {
         category: existingBoat.category,
         color: getCategoryColorCode(existingBoat.category)
       });
-      // boatsToLoad.push(boat)
+      if (boatId === '_gv6cwlznd') {
+        boatsToLoad.push(boat)
+      }
     })
     oceanModel.addBoats(boatsToLoad);
   }, [store.boats])
@@ -108,8 +113,16 @@ const Discover = ({ history }) => {
   const showFlag = () => !_.isEmpty(currentFlag.id)
   const getHoveringBoat = () => _.find(boats, boat => boat.id === currentFlag.id)
 
+  const setState = (data) => {
+    console.log('setState', { state, data, nState: { ...state, ...data } }, )
+    updateState({
+      ...state,
+      ...data
+    })
+  }
+
   const render = () => {
-    setState({ _t: Date.now() })
+    setTime({ _t: Date.now() })
   }
 
   const handleAddBoat = data => {
@@ -130,7 +143,8 @@ const Discover = ({ history }) => {
     const targetBoat = _.find(boats, boat => boat.id === id)
     console.log('handleEditBoat', { id, targetBoat, author })
     if (targetBoat.author === author) {
-      editingBoat.id = id
+      editingBoat = targetBoat
+      handleOpenEditPaper()
       render()
     } else {
       alert('Can edit only your own boat.')
@@ -171,9 +185,7 @@ const Discover = ({ history }) => {
     }
   }, 2500);
   const hoverBoat = _.throttle(({ id, position }) => {
-
     if (globalShowConfessPaper) return ''
-
     // console.log('hoverBoat', { id, position })
     if (currentFlag.id !== id) {
       currentFlag = {
@@ -256,7 +268,39 @@ const Discover = ({ history }) => {
     })
   }
 
-  // console.log('@Render', { user: getUserDisplayName(), currentFlag, hoveringBoat: getHoveringBoat(), editingBoat })
+  const handleOpenEditPaper = () => {
+    setState({
+      showEditPaper: true
+    })
+    globalShowEditPaper = true
+  }
+
+  const handleCloseEditPaper = () => {
+
+    anime({
+      targets: '.edit-paper',
+      opacity: 0,
+      translateX: '-10%',
+      duration: 300,
+      easing: 'easeInOutQuad',
+      complete: () => {
+        setState({
+          showEditPaper: false
+        })
+        globalShowEditPaper = false
+      }
+    })
+  }
+
+  const handleEditConfess = () => {
+
+  }
+
+  const handleDeleteConfess = () => {
+
+  }
+
+  // console.log('@Render', state)
 
   author = getUserDisplayName()
 
@@ -289,7 +333,9 @@ const Discover = ({ history }) => {
             )}
           </div>
           <div className="edit-paper-container">
-            <EditPaper />
+            {showEditPaper && (
+              <EditPaper {...editingBoat} onEdit={handleEditConfess} onDelete={handleDeleteConfess} onClose={handleCloseEditPaper} />
+            )}
           </div>
           <div className="thankyou-popup">
             <p className="title">THANK YOU!</p>

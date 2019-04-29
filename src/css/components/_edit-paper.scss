@@ -11,6 +11,7 @@
   background-position: center;
   background-size: cover;
   padding: 0 30px;
+  opacity: 0;
 
   .background {
     position: absolute;
@@ -27,6 +28,13 @@
   position: absolute;
   top: 20px;
   right: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.3s linear;
+  &:hover {
+    transform: scale(1.25);
+  }
   img {
     max-width: 60px;
     width: 100%;
@@ -56,6 +64,10 @@
     color: #000;
     border: none;
     padding: 10px;
+    cursor: pointer;
+  }
+  .button:hover {
+    text-decoration: underline;
   }
   .button img {
     margin-right: 10px;
