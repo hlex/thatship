@@ -25,7 +25,8 @@ export default class OceanMediator extends Observer {
 
     this.boatMediator = new BoatMediator();
 
-    this.model.addObserver('BoatRemoved', e => this.boatMediator.hideObject(e.id));
+    this.model.addObserver('BoatRemoved', e => this.boatMediator.toggleVisibility(e));
+    this.model.addObserver('Filter', e => this.boatMediator.toggleVisibility(e));
     this.model.addObserver('UpdateBoatCategory', e => this.boatMediator.setColor(e.model));
     this.model.addObserver('SingleBoatAdded', e => this.addBoat(e.boat));
     this.model.addObserver('BoatsAdded', e => this.addBoatsCluster(e.boats));
