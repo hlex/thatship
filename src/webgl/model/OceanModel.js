@@ -19,14 +19,15 @@ export default class Ocean extends Observer {
   }
 
   addBoats(boats) {
-    this.boats = boats;
-    this.emit('BoatsAdded', { boats });
+    if (boats.length) {
+      this.boats = boats;
+      this.emit('BoatsAdded', { boats });
+    }
   }
 
-  removeBoat(boat) {
-    console.log(`remove boat: ${boat.id}`);
-    this.boats = this.boats.filter(a => a.id !== boat.id);
-    this.emit('BoatRemoved', { id: boat.id });
+  removeBoat(model) {
+    this.boats = this.boats.filter(a => a.id !== model.id);
+    this.emit('Filter', { model, isVisible: false })
   }
 
   updateBoat(model) {
@@ -34,5 +35,15 @@ export default class Ocean extends Observer {
       // OceanMediator
       this.emit('UpdateBoatCategory', { model });
     }
+  }
+
+  filterBoats(categoryName) {
+    this.boats = this.boats.map((model) => {
+      this.emit('Filter', {
+        model,
+        isVisible: categoryName ? (model.category === categoryName) : true
+      })
+      return model;
+    });
   }
 }

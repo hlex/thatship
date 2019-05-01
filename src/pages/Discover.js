@@ -49,6 +49,10 @@ const Discover = ({ history }) => {
 
   console.debug("@Discover", { store, boats, size: _.size(_.keys(boats)) });
 
+  if (store.activeCategory) {
+    oceanModel.filterBoats(store.activeCategory);
+  }
+
   useEffect(() => {
     const generateDemoBoats = async () => {
       const boats = [];

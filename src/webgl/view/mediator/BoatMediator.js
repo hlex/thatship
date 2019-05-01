@@ -82,18 +82,18 @@ export default class BoatMediator extends Observer {
     return new THREE.Color(`rgb(${r}, ${g}, ${b})`);
   }
 
-  hideObject(modelId) {
-    const pickerObject = this.pickingObjects.find(a => a.userData.modelRef === modelId);
+  toggleVisibility({ model, isVisible }) {
+    const pickerObject = this.pickingObjects.find(a => a.userData.modelRef === model.id);
     const mesh = this.object3D.children.find(a => a.id === pickerObject.userData.pickerRef);
-
-    pickerObject.visible = false;
+    const scale = _v3.set(isVisible ? 4 : 0, isVisible ? 4 : 0, isVisible ? 4 : 0)
+    pickerObject.visible = isVisible;
 
     if (mesh) {
-      mesh.visible = false;
-      mesh.scale.set(0, 0, 0);
+      mesh.visible = isVisible;
+      mesh.scale.copy(scale);
 
     } else {
-      this.object3D.setScaleAt(pickerObject.userData.index, _v3.set(0, 0, 0));
+      this.object3D.setScaleAt(pickerObject.userData.index, scale);
       this.object3D.needsUpdate('scale');
     }
   }
@@ -110,6 +110,7 @@ export default class BoatMediator extends Observer {
       mesh.scale.set(4, 4, 4);
       mesh.material.color.lerp(this.getRGB(data.color), 1);
       mesh.position.copy(position);
+      mesh.rotation.set(0, Math.PI * Math.random(), 0);
 
       // GPUPicker
       const geometry = mesh.geometry.clone();
@@ -159,7 +160,7 @@ export default class BoatMediator extends Observer {
       if (position) {
         // inst geometry
         this.positionsTaken.push(position);
-        cluster.setQuaternionAt(i, _q);
+        cluster.setQuaternionAt(i, _q.setFromAxisAngle(_v3.set(0, 1, 0), Math.PI * Math.random()));
         cluster.setPositionAt(i, _v3.copy(position));
         cluster.setScaleAt(i, _v3.set(4, 4, 4));
         cluster.setColorAt(i, this.getRGB(arr[i].color));
@@ -198,7 +199,7 @@ export default class BoatMediator extends Observer {
   }
 
   findPlaceRecursively(iteration = 0, amount = 0) {
-    const k = clamp(10 * amount, 1000, 3000);
+    const k = clamp(50 * amount, 1000, 3000);
 
     const position = new THREE.Vector3(
       (Math.random() - 0.5) * k,
@@ -216,12 +217,12 @@ export default class BoatMediator extends Observer {
 
     iteration++;
 
-    if (!this.positionsTaken.length || !distances.some(x => x < 50)) {
+    if (!this.positionsTaken.length || !distances.some(x => x < 100)) {
       // console.log("iteration count", iteration);
       return position;
     } else if (iteration > 1000) {
       console.log("can not find a place", iteration);
-      return new THREE.Vector3();
+      return null;
     } else {
       return this.findPlaceRecursively(iteration, amount);
     }
