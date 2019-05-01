@@ -26,8 +26,6 @@ const Login = ({ isLoggedIn, userLogin, history }) => {
         display_name: user.providerData[0].displayName,
         imageProfile: user.providerData[0].photoURL,
       };
-      alert('Login Successfully')
-      userLogin(userData)
 
       // check user
       const docRef = await firebase.db.collection('users').doc(userId)
@@ -39,6 +37,9 @@ const Login = ({ isLoggedIn, userLogin, history }) => {
         const result = await firebase.db.collection('users').doc(userId).set(userData)
         console.log('NewUser', userId, userData, result)
       }
+
+      alert('Login Successfully')
+      userLogin(userData)
 
       // redirect to discover
       history.push('/discover')
