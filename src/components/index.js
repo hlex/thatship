@@ -10,3 +10,4 @@ export { default as BoatFlag } from "./BoatFlag";
 export { default as Ocean } from "./Ocean";
 export { default as ConfessPaper } from "./ConfessPaper";
 export { default as EditPaper } from "./EditPaper";
+export { default as SearchInput } from "./SearchInput";

@@ -55,7 +55,7 @@
   }
 }
 
-.discover-page .confess-paper-container, .discover-page .edit-paper-container {
+.discover-page .confess-paper-container, .discover-page .edit-paper-container, .discover-page .search-container {
   position: fixed;
   width: 75%;
   z-index: 100;
@@ -64,9 +64,14 @@
   left: 50%;
 }
 
+.discover-page .search-container {
+  top: 20%;
+}
+
 .discover-page .navigation-tips {
   background: transparent;
   position: fixed;
+  z-index: 30;
   left: 50%;
   top: 35%;
   transform: translate3d(-50%, -50%, 0);

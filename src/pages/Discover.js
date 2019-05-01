@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import _ from "lodash";
 import anime from "animejs";
 
-import { MainContent, BoatFlag, ConfessPaper, EditPaper } from "../components";
+import { MainContent, BoatFlag, ConfessPaper, EditPaper, SearchInput } from "../components";
 
 import Controller from "../webgl/Controller";
 import Ocean from "../webgl/model/OceanModel";
@@ -28,6 +28,7 @@ let boats = {};
 let author = "";
 let globalShowConfessPaper = false;
 let globalShowEditPaper = false;
+let globalShowSearch = false;
 
 const sleep = second => {
   return new Promise((resolve, reject) => {
@@ -39,11 +40,11 @@ const sleep = second => {
 
 const Discover = ({ history }) => {
   const [time, setTime] = useState(0);
-  const [state, updateState] = useState({ showConfessPaper: false, showEditPaper: false });
+  const [state, updateState] = useState({ showConfessPaper: false, showEditPaper: false , showSearch: false});
   const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext);
   const { store } = useContext(StoreContext);
 
-  const { showConfessPaper, showEditPaper } = state;
+  const { showConfessPaper, showEditPaper, showSearch } = state;
   const { activeCategory, showAllUserBoat } = store
 
   console.debug("@Discover", { store, boats, size: _.size(_.keys(boats)) });
@@ -136,8 +137,8 @@ const Discover = ({ history }) => {
       boatsToLoad.push(boat);
       // }
     });
-    // oceanModel.addBoats(_.take(boatsToLoad, 20));
-    oceanModel.addBoats(boatsToLoad);
+    oceanModel.addBoats(_.take(boatsToLoad, 20));
+    // oceanModel.addBoats(boatsToLoad);
   }, [store.boats]);
 
   const showFlag = () => !_.isEmpty(currentFlag.id);
@@ -210,7 +211,7 @@ const Discover = ({ history }) => {
     }
   }, 2500);
   const hoverBoat = _.throttle(({ id, position }) => {
-    if (globalShowConfessPaper) return "";
+    if (globalShowConfessPaper || globalShowEditPaper || globalShowSearch) return "";
     // console.log('hoverBoat', { id, position })
     if (currentFlag.id !== id) {
       currentFlag = {
@@ -382,6 +383,33 @@ const Discover = ({ history }) => {
     handleCloseEditPaper();
   };
 
+  const handleShowSearch = () => {
+    setState({
+      showSearch: true
+    });
+    globalShowSearch = true
+  }
+
+  const handleCloseSearch = () => {
+    anime({
+      targets: ".search-input",
+      opacity: 0,
+      translateY: -10,
+      duration: 500,
+      easing: "easeInOutQuad",
+      complete: () => {
+        setState({
+          showSearch: false
+        });
+        globalShowSearch = false
+      }
+    });
+  }
+
+  const handleSubmitSearch = (searchValue) => {
+    console.log('handleSubmitSearch', searchValue)
+  }
+
   console.log('@Render', state)
 
   author = getUserDisplayName();
@@ -395,7 +423,7 @@ const Discover = ({ history }) => {
               <img src={iconConfess} alt="" />
               <h4>confess a regret</h4>
             </div>
-            <div className="menu-item">
+            <div className="menu-item" onClick={handleShowSearch}>
               <img src={iconSearch} alt="" />
               <h4>search for regrets</h4>
             </div>
@@ -424,6 +452,14 @@ const Discover = ({ history }) => {
                 onEdit={handleEditConfess}
                 onDelete={handleDeleteConfess}
                 onClose={handleCloseEditPaper}
+              />
+            )}
+          </div>
+          <div className="search-container">
+            {showSearch && (
+              <SearchInput
+                onSubmit={handleSubmitSearch}
+                onClose={handleCloseSearch}
               />
             )}
           </div>
