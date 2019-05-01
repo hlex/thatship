@@ -141,8 +141,8 @@ const Discover = ({ history }) => {
       boatsToLoad.push(boat);
       // }
     });
-    oceanModel.addBoats(_.take(boatsToLoad, 20));
-    // oceanModel.addBoats(boatsToLoad);
+    // oceanModel.addBoats(_.take(boatsToLoad, 20));
+    oceanModel.addBoats(boatsToLoad);
   }, [store.boats]);
 
   const showFlag = () => !_.isEmpty(currentFlag.id);
