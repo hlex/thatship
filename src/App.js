@@ -42,7 +42,7 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
-    if (history.location.pathname === '/menu' && !isPlayingAudio) {
+    if (history.location.pathname !== '' && !isPlayingAudio) {
       // play audio
       const audio = new Audio(sound) // eslint-disable-line
       audio.play()
