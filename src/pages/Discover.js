@@ -40,17 +40,22 @@ const sleep = second => {
 const Discover = ({ history }) => {
   const [time, setTime] = useState(0);
   const [state, updateState] = useState({ showConfessPaper: false, showEditPaper: false });
-  const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(
-    UserContext
-  );
+  const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext);
   const { store } = useContext(StoreContext);
 
   const { showConfessPaper, showEditPaper } = state;
+  const { activeCategory, showAllUserBoat } = store
 
   console.debug("@Discover", { store, boats, size: _.size(_.keys(boats)) });
 
-  if (store.activeCategory) {
-    oceanModel.filterBoats(store.activeCategory);
+  if (oceanModel && showAllUserBoat) {
+    oceanModel.filterBoatsByAuthor(getUserDisplayName())
+  } else if (oceanModel && showAllUserBoat === false) {
+    oceanModel.filterBoatsByAuthor("")
+  }
+
+  if (activeCategory) {
+    oceanModel.filterBoatsByCategoryValue(activeCategory);
   }
 
   useEffect(() => {
@@ -131,6 +136,7 @@ const Discover = ({ history }) => {
       boatsToLoad.push(boat);
       // }
     });
+    // oceanModel.addBoats(_.take(boatsToLoad, 20));
     oceanModel.addBoats(boatsToLoad);
   }, [store.boats]);
 

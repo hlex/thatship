@@ -18,7 +18,8 @@ const { StoreContext } = storeContext
 
 const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true }) => {
 
-  const { activeCategory, setStore } = useContext(StoreContext)
+  const { store, setStore } = useContext(StoreContext)
+  const { activeCategory } = store
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("Do you want to logout ?");
@@ -30,7 +31,15 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
   }
 
   const handleShowAllUserBoats = () => {
+    setStore({
+      showAllUserBoat: true
+    })
+  }
 
+  const handleShowAllBoats = () => {
+    setStore({
+      showAllUserBoat: false
+    })
   }
 
   const renderAvatar = () => {
@@ -38,7 +47,6 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
     return (
       <Fragment>
         <Link to="/login" data-tip data-for='login'><img className="empty-avatar" src={iconMe} alt="login" /></Link>
-        {/* <a ><img onClick={handleShowAllUserBoats} className="compass" src={iconCompass} alt="" /></a> */}
         <ReactTooltip id="login" place="bottom" type="dark" effect="solid">
           <p>Login</p>
         </ReactTooltip>
@@ -59,7 +67,7 @@ const Header = ({ isLoggedIn, user, userLogout, location, showCategory = true })
             <Category activeCategory={activeCategory} onSelect={handleSelectCategory} />
           </div>
           <div className={`user-zone show`}>
-            <a data-tip data-for='show-all-user-boats'><img onClick={handleShowAllUserBoats} className="compass" src={iconCompass} alt="" /></a>
+            <a data-tip data-for='show-all-user-boats'><img onClick={handleShowAllBoats} className="compass" src={iconCompass} alt="" /></a>
             <ReactTooltip id="show-all-user-boats" place="bottom" type="dark" effect="solid">
               <p>Show All Boats</p>
             </ReactTooltip>

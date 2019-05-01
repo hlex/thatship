@@ -37,11 +37,32 @@ export default class Ocean extends Observer {
     }
   }
 
-  filterBoats(categoryName) {
+  filterBoatsByCategoryValue(categoryName) {
     this.boats = this.boats.map((model) => {
       this.emit('Filter', {
         model,
         isVisible: categoryName ? (model.category === categoryName) : true
+      })
+      return model;
+    });
+  }
+
+  filterBoatsByAuthor(author) {
+    this.boats = this.boats.map((model) => {
+      this.emit('Filter', {
+        model,
+        isVisible: author ? (model.author === author) : true
+      })
+      return model;
+    });
+  }
+
+  filterBoatsByKeyword(keyword) {
+    const regex = new RegExp(keyword, 'ig')
+    this.boats = this.boats.map((model) => {
+      this.emit('Filter', {
+        model,
+        isVisible: keyword ? (regex.test(`${model.message}${model.author}${model.category}`)) : true
       })
       return model;
     });

@@ -31,7 +31,7 @@ export default ({ boatId, boat = {}, onSubmit = () => null, onClose = () => null
   }, [])
 
   useEffect(() => {
-    setMessage(`${initialText}${boat.message}`)
+    if (boat.message) setMessage(`${initialText}${boat.message}`)
     setCategory(boat.category)
   },[boatId])
 
