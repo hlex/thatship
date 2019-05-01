@@ -42,14 +42,18 @@ const Discover = ({ history }) => {
   const [time, setTime] = useState(0);
   const [state, updateState] = useState({ showConfessPaper: false, showEditPaper: false , showSearch: false});
   const { getUserDisplayName, getUserEmail, isLoggedIn } = useContext(UserContext);
-  const { store } = useContext(StoreContext);
+  const { store, setStore } = useContext(StoreContext);
 
   const { showConfessPaper, showEditPaper, showSearch } = state;
-  const { activeCategory, showAllUserBoat } = store
+  const { activeCategory, showAllUserBoat, searchValue } = store
 
   console.debug("@Discover", { store, boats, size: _.size(_.keys(boats)) });
 
-  if (oceanModel && showAllUserBoat) {
+   // filter boat
+
+  if (oceanModel && !_.isEmpty(searchValue)) {
+    oceanModel.filterBoatsByKeyword(searchValue)
+  } else if (oceanModel && showAllUserBoat) {
     oceanModel.filterBoatsByAuthor(getUserDisplayName())
   } else if (oceanModel && showAllUserBoat === false) {
     oceanModel.filterBoatsByAuthor("")
@@ -407,7 +411,7 @@ const Discover = ({ history }) => {
   }
 
   const handleSubmitSearch = (searchValue) => {
-    console.log('handleSubmitSearch', searchValue)
+    setStore({ searchValue })
   }
 
   console.log('@Render', state)

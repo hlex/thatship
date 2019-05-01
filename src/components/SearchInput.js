@@ -35,9 +35,13 @@ export default ({ onSubmit, onClose }) => {
     onSubmit(searchRef.current.value)
   }
 
+  const handleKeyDown = (event) => {
+    if (event.which === 13) handleSubmit()
+  }
+
   return (
     <div className={`search-input`} ref={node}>
-      <input ref={searchRef} placeholder="SEARCH ..." />
+      <input ref={searchRef} placeholder="SEARCH ..." onKeyDown={handleKeyDown} />
       <button data-tip data-for='search-button' onClick={handleSubmit}><img src={iconConfess} alt="" /></button>
       <ReactTooltip id="search-button" place="top" type="dark" effect="solid">
         Click to search
